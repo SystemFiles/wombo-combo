@@ -1,0 +1,43 @@
+language: node_js
+node_js:
+  - "stable"
+
+services:
+  - docker
+
+before_install:
+  - apt-get update && apt-get install -y curl
+
+before_script:
+  - cd ${TRAVIS_BUILD_DIR}/client/ && export CLIENT_VER=$(npm version patch | cut -c 2-)
+
+stages:
+  - name: lint-client
+    if: branch != master
+  - name: lint-server
+    if: branch != master
+  - name: test-client
+    if: branch != master
+  - name: test-server
+    if: branch != master
+  - name: build-push-client
+    if: branch = master
+  - name: build-push-server
+    if: branch = master
+  - name: deploy
+    if: branch = master
+
+jobs:
+  allow_failures:
+    - env:
+        - CAN_FAIL=true
+  include:
+    - stage: lint-client
+      env:
+        - CAN_FAIL=true
+      script:
+        - cd ${TRAVIS_BUILD_DIR}/client/ && npm install eslint babel-eslint
+        - npm run lint
+    - stage: deploy
+      script:
+        - ${TRAVIS_BUILD_DIR}/.travis/deploy.sh
