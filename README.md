@@ -1,6 +1,6 @@
 <p align="center">
   <a href="" rel="noopener">
-  <img width=400px height=200px src="/doc/media/logo.png" alt="Wombo Combo Logo"></a>
+  <img width=400px height=170px src="/doc/media/logo.png" alt="Wombo Combo Logo"></a>
 </p>
 
 <h3 align="center">Wombo Combo</h3>
