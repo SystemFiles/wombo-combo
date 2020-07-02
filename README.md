@@ -8,6 +8,7 @@
 <div align="center">
 
 [![Status](https://img.shields.io/badge/status-dev-orange.svg)](http://sykesdev.ca/wombo-combo/)
+[![Build](https://travis-ci.com/SystemFiles/wombo-combo.svg?branch=master)](https://travis-ci.com/github/SystemFiles/wombo-combo)
 [![GitHub Issues](https://img.shields.io/github/issues/systemfiles/wombo-combo.svg)](https://github.com/SystemFiles/wombo-combo/issues)
 [![GitHub Pull Requests](https://img.shields.io/github/issues-pr/systemfiles/wombo-combo.svg)](https://github.com/SystemFiles/wombo-combo/pulls)
 [![Code Style](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://github.com/standard/eslint-config-standard/blob/master/README.md)
