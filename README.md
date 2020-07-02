@@ -7,7 +7,7 @@
 
 <div align="center">
 
-[![Status](https://img.shields.io/badge/status-live-success.svg)](http://sykesdev.ca/wombo-combo/)
+[![Status](https://img.shields.io/badge/status-dev-orange.svg)](http://sykesdev.ca/wombo-combo/)
 [![GitHub Issues](https://img.shields.io/github/issues/systemfiles/wombo-combo.svg)](https://github.com/SystemFiles/wombo-combo/issues)
 [![GitHub Pull Requests](https://img.shields.io/github/issues-pr/systemfiles/wombo-combo.svg)](https://github.com/SystemFiles/wombo-combo/pulls)
 [![Code Style](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://github.com/standard/eslint-config-standard/blob/master/README.md)
