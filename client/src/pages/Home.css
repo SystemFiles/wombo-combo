@@ -1,0 +1,94 @@
+.Home {
+	text-align: center;
+	color: #424242;
+}
+
+.Home-Logo {
+	background: #fff;
+	box-shadow: 0px 1px 6.5px #424242;
+}
+
+.Home-Container {
+	margin-top: 60px;
+}
+
+.Home-Container div .Home-Form {
+	position: relative;
+	margin: 0 auto;
+	background: #fff;
+	box-shadow: 0px 1px 5.5px #424242;
+}
+
+.Home-Container div .Home-Form .Home-Main {
+	padding: 10px 5px;
+}
+
+.Home-Main-Header {
+	text-align: center;
+}
+
+.Home-Main-Header h1 {
+	width: 38px;
+	margin: 0 auto;
+	font-family: 'Times New Roman', Times, serif;
+	font-weight: 500;
+	color: #424242;
+	padding: 2px;
+	border: 1px solid rgba(66, 66, 66, 0.6);
+	border-radius: 50px;
+}
+
+.Home-Main-Header .Done {
+	border: 1px solid rgba(64, 172, 155, 0.6);
+}
+
+.Home-Main-Header h1 span {
+	font-size: 18pt;
+	color: #40ac9b;
+}
+
+.Home-Main-Header h3 {
+	font-family: 'Times New Roman', Times, serif;
+	font-weight: 200;
+}
+
+.Home-Form .Home-Main-Nav {
+	padding: 10px 0;
+	border-top: 1px solid rgba(66, 66, 66, 0.3);
+}
+
+.Home-Form .Home-Main-Nav button {
+	font-family: 'Times New Roman', Times, serif;
+	color: #fff;
+	background-color: #424242;
+}
+
+.Home-Progress {
+	position: absolute;
+	width: 100%;
+	bottom: 0;
+}
+
+.Home-Progress div {
+	padding: 15px 0;
+}
+
+.Home-Progress .MuiSvgIcon-root {
+	color: #424242;
+}
+
+.Home-Progress .MuiStepLabel-iconContainer .MuiStepIcon-active {
+	color: #5b8faa;
+}
+
+.Home-Progress .MuiStepLabel-iconContainer .MuiStepIcon-completed {
+	color: #40ac9b;
+}
+
+.Home-Progress .MuiStepLabel-labelContainer span {
+	color: rgba(66, 66, 66, 0.6);
+}
+
+.Home-Progress .MuiStepLabel-labelContainer .MuiStepLabel-active {
+	color: rgba(66, 66, 66, 1.0);
+}
