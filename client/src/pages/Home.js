@@ -32,9 +32,10 @@ export class Home extends Component {
 		this.getStepTitle = this.getStepTitle.bind(this);
 		this.getStepModule = this.getStepModule.bind(this);
 		this.onFileUpload = this.onFileUpload.bind(this);
+		this.buildComboList = this.buildComboList.bind(this);
 	}
 
-	/* HOME MODULE HANDLERS */
+	/* HOME */
 	getStepTitle() {
 		switch (this.state.activeStep) {
 			case 0:
@@ -85,7 +86,7 @@ export class Home extends Component {
 			this.setState((st) => ({
 				activeStep : st.done ? st.activeStep : st.activeStep++,
 				done       : st.activeStep - 1 === this.totalSteps,
-				valid      : false
+				valid      : true // todo temp
 			}));
 		}
 	}
@@ -98,9 +99,14 @@ export class Home extends Component {
 			}));
 		}
 	}
-	/* HOME MODULE HANDLERS */
 
-	/* UPLOAD MODULE HANDLERS */
+	async buildComboList() {
+		// todo
+	}
+
+	/* HOME */
+
+	/* UPLOAD MODULE */
 	onFileUpload(file, type) {
 		console.log(file, type);
 		this.setState(
@@ -117,11 +123,11 @@ export class Home extends Component {
 			}
 		);
 	}
-	/* UPLOAD MODULE HANDLERS */
+	/* UPLOAD MODULE */
 
-	/* RULES MODULE HANDLERS */
+	/* RULES MODULE */
 
-	/* RULES MODULE HANDLERS */
+	/* RULES MODULE */
 
 	render() {
 		const title = this.getStepTitle();
@@ -155,7 +161,18 @@ export class Home extends Component {
 								<div className='Home-Main-Nav'>
 									<Grid container>
 										<Grid item xs={6} style={{ textAlign: 'left', paddingLeft: '15px' }}>
-											<Button onClick={this.handleBack}>Back</Button>
+											<Button
+												style={
+													this.state.activeStep === 0 ? (
+														{ visibility: 'hidden' }
+													) : (
+														{ visibility: 'visible' }
+													)
+												}
+												onClick={this.handleBack}
+											>
+												Back
+											</Button>
 										</Grid>
 										<Grid item xs={6} style={{ textAlign: 'right', paddingRight: '15px' }}>
 											<Button

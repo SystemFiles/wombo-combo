@@ -29,7 +29,7 @@ export class FileUpload extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			file : {}
+			fileName : ''
 		};
 
 		this.onChangeFile = this.onChangeFile.bind(this);
@@ -40,13 +40,11 @@ export class FileUpload extends Component {
 		evt.preventDefault();
 		var file = evt.target.files[0];
 
-		console.log(file);
-
 		// Pass this file up to parent...
 		this.props.onUpload(file, evt.target.name);
 
 		// Set state for ui
-		this.setState({ file });
+		this.setState({ fileName: file.name });
 	}
 
 	render() {
@@ -69,7 +67,7 @@ export class FileUpload extends Component {
 								disabled={true}
 								style={{ width: '90%' }}
 								placeholder={this.props.placeholder}
-								value={this.state.file.name}
+								value={this.state.fileName}
 								onClick={() => {
 									this.handleUpload.click();
 								}}

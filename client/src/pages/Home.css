@@ -98,3 +98,9 @@
 .Home-Progress .MuiStepLabel-labelContainer .MuiStepLabel-active {
 	color: rgba(66, 66, 66, 1.0);
 }
+
+@media only screen and (max-height: 800px) {
+	.Home-Progress div {
+		display: none;
+	}
+}
