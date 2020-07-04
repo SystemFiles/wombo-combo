@@ -21,6 +21,7 @@ export class Home extends Component {
 		this.state = {
 			activeStep : 0,
 			startFiles : null,
+			serverVars : null,
 			outputFile : {},
 			valid      : false,
 			done       : false
