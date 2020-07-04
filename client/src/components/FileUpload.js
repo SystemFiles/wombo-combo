@@ -11,6 +11,7 @@ export class FileUpload extends Component {
 			uploadText  : PropTypes.string,
 			placeholder : PropTypes.string,
 			color       : PropTypes.string,
+			type        : PropTypes.string,
 			onUpload    : PropTypes.func
 		};
 	}
@@ -19,6 +20,7 @@ export class FileUpload extends Component {
 		uploadText  : 'Upload',
 		placeholder : 'Upload a file',
 		color       : 'primary',
+		type        : 'username',
 		onUpload    : (file) => {
 			console.log(file);
 		}
@@ -30,18 +32,20 @@ export class FileUpload extends Component {
 			file : {}
 		};
 
-		this.handleUpload = this.handleUpload.bind(this);
 		this.onChangeFile = this.onChangeFile.bind(this);
-	}
-
-	handleUpload(file) {
-		console.log(file);
 	}
 
 	onChangeFile(evt) {
 		evt.stopPropagation();
 		evt.preventDefault();
 		var file = evt.target.files[0];
+
+		console.log(file);
+
+		// Pass this file up to parent...
+		this.props.onUpload(file, evt.target.name);
+
+		// Set state for ui
 		this.setState({ file });
 	}
 
@@ -50,6 +54,7 @@ export class FileUpload extends Component {
 			<div className='FileUpload'>
 				<input
 					id='fileInput'
+					name={this.props.type}
 					type='file'
 					required='yes'
 					ref={(ref) => (this.handleUpload = ref)}
@@ -65,6 +70,9 @@ export class FileUpload extends Component {
 								style={{ width: '90%' }}
 								placeholder={this.props.placeholder}
 								value={this.state.file.name}
+								onClick={() => {
+									this.handleUpload.click();
+								}}
 							/>
 						</Grid>
 						<Grid item xs={4}>

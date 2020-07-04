@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import FadeIn from 'react-fade-in';
-import { Grid, Stepper, Step, StepLabel, Zoom, Button } from '@material-ui/core';
+import { Grid, Zoom, Button } from '@material-ui/core';
+import ComboStepper from '../components/ComboStepper';
 
 // Modules
 import FileUpload from '../components/FileUpload';
@@ -19,16 +20,21 @@ export class Home extends Component {
 		this.totalSteps = 3;
 		this.state = {
 			activeStep : 0,
+			startFiles : null,
+			outputFile : {},
 			valid      : false,
 			done       : false
 		};
 
+		// Method binding
 		this.handleForward = this.handleForward.bind(this);
 		this.handleBack = this.handleBack.bind(this);
 		this.getStepTitle = this.getStepTitle.bind(this);
 		this.getStepModule = this.getStepModule.bind(this);
+		this.onFileUpload = this.onFileUpload.bind(this);
 	}
 
+	/* HOME MODULE HANDLERS */
 	getStepTitle() {
 		switch (this.state.activeStep) {
 			case 0:
@@ -48,9 +54,19 @@ export class Home extends Component {
 		switch (this.state.activeStep) {
 			case 0:
 				return (
-					<div>
-						<FileUpload color='info' placeholder='username list (.txt)' />
-						<FileUpload color='info' placeholder='password list (.txt)' />
+					<div id='Upload-Module'>
+						<FileUpload
+							type='usernames'
+							color='default'
+							placeholder='username list (.txt)'
+							onUpload={this.onFileUpload}
+						/>
+						<FileUpload
+							type='passwords'
+							color='default'
+							placeholder='password list (.txt)'
+							onUpload={this.onFileUpload}
+						/>
 					</div>
 				);
 			case 1:
@@ -68,7 +84,8 @@ export class Home extends Component {
 		if (this.state.activeStep + 1 <= this.totalSteps) {
 			this.setState((st) => ({
 				activeStep : st.done ? st.activeStep : st.activeStep++,
-				done       : st.activeStep - 1 === this.totalSteps
+				done       : st.activeStep - 1 === this.totalSteps,
+				valid      : false
 			}));
 		}
 	}
@@ -81,6 +98,30 @@ export class Home extends Component {
 			}));
 		}
 	}
+	/* HOME MODULE HANDLERS */
+
+	/* UPLOAD MODULE HANDLERS */
+	onFileUpload(file, type) {
+		console.log(file, type);
+		this.setState(
+			(st) => ({
+				startFiles : {
+					...st.startFiles,
+					[type] : file
+				}
+			}),
+			() => {
+				if (this.state.startFiles.usernames && this.state.startFiles.passwords) {
+					this.setState({ valid: true });
+				}
+			}
+		);
+	}
+	/* UPLOAD MODULE HANDLERS */
+
+	/* RULES MODULE HANDLERS */
+
+	/* RULES MODULE HANDLERS */
 
 	render() {
 		const title = this.getStepTitle();
@@ -93,7 +134,7 @@ export class Home extends Component {
 				<Zoom in={true} style={{ transitionDelay: '50ms' }}>
 					<div className='Home-Container'>
 						<Grid container>
-							<Grid className='Home-Form' item xs={12} sm={8} lg={6}>
+							<Grid className='Home-Form' item xs={12} sm={8} lg={6} xl={4}>
 								<div className='Home-Main'>
 									<div className='Home-Main-Header'>
 										<h1 className={this.state.done ? 'Done' : null}>
@@ -138,17 +179,7 @@ export class Home extends Component {
 					</div>
 				</Zoom>
 				<div className='Home-Progress'>
-					<Stepper activeStep={this.state.activeStep} alternativeLabel>
-						<Step>
-							<StepLabel>Upload Files</StepLabel>
-						</Step>
-						<Step>
-							<StepLabel>Select Rules</StepLabel>
-						</Step>
-						<Step>
-							<StepLabel>Review &amp; Finalize</StepLabel>
-						</Step>
-					</Stepper>
+					<ComboStepper activeStep={this.state.activeStep} />
 				</div>
 			</div>
 		);
