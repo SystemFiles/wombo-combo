@@ -47,7 +47,12 @@ export class Home extends Component {
 	getStepModule() {
 		switch (this.state.activeStep) {
 			case 0:
-				return <FileUpload />;
+				return (
+					<div>
+						<FileUpload color='info' placeholder='username list (.txt)' />
+						<FileUpload color='info' placeholder='password list (.txt)' />
+					</div>
+				);
 			case 1:
 				return <ComboRules />;
 			case 2:
