@@ -35,6 +35,12 @@ jobs:
       script:
         - cd ${TRAVIS_BUILD_DIR}/client/ && npm install eslint babel-eslint
         - npm run lint
+    - stage: lint-server
+      env:
+        - CAN_FAIL=true
+      script:
+        - cd ${TRAVIS_BUILD_DIR}/server/ && npm install eslint
+        - npm run lint
     - stage: deploy
       script:
         - ${TRAVIS_BUILD_DIR}/.travis/deploy.sh
