@@ -6,6 +6,7 @@ import ComboStepper from '../components/ComboStepper';
 // Modules
 import FileUpload from '../components/FileUpload';
 import ComboRules from '../components/ComboRules';
+import ComboOutput from '../components/ComboOutput';
 
 // Media
 import Logo from '../assets/logo.png';
@@ -22,9 +23,8 @@ export class Home extends Component {
 			activeStep : 0,
 			startFiles : null,
 			serverVars : null,
-			outputFile : {},
-			valid      : false,
-			done       : false
+			valid      : false, // The input valid for this module/step
+			done       : false // Is the entire process completed
 		};
 
 		// Method binding
@@ -33,7 +33,6 @@ export class Home extends Component {
 		this.getStepTitle = this.getStepTitle.bind(this);
 		this.getStepModule = this.getStepModule.bind(this);
 		this.onFileUpload = this.onFileUpload.bind(this);
-		this.buildComboList = this.buildComboList.bind(this);
 	}
 
 	/* HOME */
@@ -74,9 +73,9 @@ export class Home extends Component {
 			case 1:
 				return <ComboRules />;
 			case 2:
-				return 'Review';
+				return 'Review your changes...';
 			case 3:
-				return 'Done!';
+				return <ComboOutput files={this.state.startFiles} vars={this.state.serverVars} />;
 			default:
 				return 'Unknown Step...';
 		}
@@ -99,10 +98,6 @@ export class Home extends Component {
 				done       : st.activeStep - 1 === this.totalSteps
 			}));
 		}
-	}
-
-	async buildComboList() {
-		// todo
 	}
 
 	/* HOME */
