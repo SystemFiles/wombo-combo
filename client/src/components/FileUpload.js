@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Grid, Button, TextField } from '@material-ui/core';
+import { Grid, Button, TextField, Zoom } from '@material-ui/core';
 
 // Styles
 import './FileUpload.css';
@@ -49,44 +49,46 @@ export class FileUpload extends Component {
 
 	render() {
 		return (
-			<div className='FileUpload'>
-				<input
-					id='fileInput'
-					name={this.props.type}
-					type='file'
-					required='yes'
-					ref={(ref) => (this.handleUpload = ref)}
-					style={{ display: 'none' }}
-					onChange={this.onChangeFile.bind(this)}
-					accept='.txt'
-				/>
-				<Grid container>
-					<Grid container item xs={12}>
-						<Grid item xs={8}>
-							<TextField
-								disabled={true}
-								style={{ width: '90%' }}
-								placeholder={this.props.placeholder}
-								value={this.state.fileName}
-								onClick={() => {
-									this.handleUpload.click();
-								}}
-							/>
-						</Grid>
-						<Grid item xs={4}>
-							<Button
-								onClick={() => {
-									this.handleUpload.click();
-								}}
-								variant='outlined'
-								color={this.props.color}
-							>
-								{this.props.uploadText}
-							</Button>
+			<Zoom in style={{ transitionDelay: '50ms' }}>
+				<div className='FileUpload'>
+					<input
+						id='fileInput'
+						name={this.props.type}
+						type='file'
+						required='yes'
+						ref={(ref) => (this.handleUpload = ref)}
+						style={{ display: 'none' }}
+						onChange={this.onChangeFile.bind(this)}
+						accept='.txt'
+					/>
+					<Grid container>
+						<Grid container item xs={12}>
+							<Grid item xs={8}>
+								<TextField
+									disabled={true}
+									style={{ width: '90%' }}
+									placeholder={this.props.placeholder}
+									value={this.state.fileName}
+									onClick={() => {
+										this.handleUpload.click();
+									}}
+								/>
+							</Grid>
+							<Grid item xs={4}>
+								<Button
+									onClick={() => {
+										this.handleUpload.click();
+									}}
+									variant='outlined'
+									color={this.props.color}
+								>
+									{this.props.uploadText}
+								</Button>
+							</Grid>
 						</Grid>
 					</Grid>
-				</Grid>
-			</div>
+				</div>
+			</Zoom>
 		);
 	}
 }

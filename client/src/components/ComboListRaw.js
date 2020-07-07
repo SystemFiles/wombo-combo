@@ -4,6 +4,7 @@ import MuiAlert from '@material-ui/lab/Alert';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import copy from 'copy-to-clipboard';
 import PropTypes from 'prop-types';
+import { v4 as uuid } from 'uuid';
 
 // Style
 import './ComboListRaw.css';
@@ -61,9 +62,11 @@ export class ComboListRaw extends Component {
 		return (
 			<div className='ComboListRaw'>
 				<Grid container className='ComboList-Container'>
-					<p ref={(listArea) => (this.listArea = listArea)}>{lines.map((line) => <div>{line}</div>)}</p>
+					<p ref={(listArea) => (this.listArea = listArea)}>
+						{lines.map((line) => <div key={uuid()}>{line}</div>)}
+					</p>
 					<Button onClick={this.handleCopy}>
-						<FileCopyIcon color='default' />
+						<FileCopyIcon />
 					</Button>
 				</Grid>
 				<Snackbar

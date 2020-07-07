@@ -2,11 +2,14 @@
 	color: #424242;
 	font-family: 'Times New Roman', Times, serif;
 	font-weight: 200;
+	vertical-align: middle;
+}
+
+.ComboDownload button .MuiButton-label svg {
+	vertical-align: middle;
 }
 
 .ComboDownload button {
-	border: 10px solid;
-	border-image-slice: 1;
-	border-width: 3px;
-	border-image-source: linear-gradient(to right, #2ebf91, #8360c3);
+	width: 40%;
+	border: 1px solid #424242;
 }

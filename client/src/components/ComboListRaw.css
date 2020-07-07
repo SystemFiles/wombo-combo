@@ -12,10 +12,7 @@
 	color: #000;
 	border-radius: 5px;
 	background: rgba(66, 66, 66, 0.2);
-	border: 10px solid;
-	border-image-slice: 1;
-	border-width: 3px;
-	border-image-source: linear-gradient(to right, #2ebf91, #8360c3);
+	border: 1px solid #424242;
 }
 
 .ComboList-Container p {
@@ -25,6 +22,9 @@
 	max-height: 200px;
 	overflow: scroll;
 	text-align: left;
+	font-family: 'Times New Roman', Times, serif;
+	font-weight: 200;
+	color: #424242;
 }
 
 .ComboList-Container button {

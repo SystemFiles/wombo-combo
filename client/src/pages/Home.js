@@ -10,7 +10,6 @@ import ComboOutput from '../components/ComboOutput';
 
 // Media
 import Logo from '../assets/logo.png';
-import ComboListRaw from '../components/ComboListRaw';
 
 // Styles
 import './Home.css';
@@ -105,7 +104,6 @@ export class Home extends Component {
 
 	/* UPLOAD MODULE */
 	onFileUpload(file, type) {
-		console.log(file, type);
 		this.setState(
 			(st) => ({
 				startFiles : {
