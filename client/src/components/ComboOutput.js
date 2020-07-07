@@ -1,7 +1,14 @@
 import React, { Component } from 'react';
 import { CircularProgress } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+import ComboCount from './ComboCount';
+import ComboListRaw from './ComboListRaw';
+import ComboDownload from './ComboDownload';
+
+// Styles
+import './ComboOutput.css';
 
 const ENDPOINT = 'http://localhost:5000/wombo-combo/api/list/upload';
 
@@ -62,8 +69,16 @@ export class ComboOutput extends Component {
 				{this.state.loading ? (
 					<CircularProgress style={{ marginTop: '30px', marginBottom: '30px' }} color='primary' />
 				) : (
-					<div>
-						<p>Num of combos generated: {this.state.comboCount}</p>
+					<div className='ComboOutput-Container'>
+						<Grid container>
+							<ComboCount count={this.state.comboCount} />
+							<Grid className='ComboOutput-Section' item xs={12}>
+								<ComboDownload list={this.state.comboList} />
+							</Grid>
+							<Grid className='ComboOutput-Section' item xs={12}>
+								<ComboListRaw list={this.state.comboList} />
+							</Grid>
+						</Grid>
 					</div>
 				)}
 			</div>

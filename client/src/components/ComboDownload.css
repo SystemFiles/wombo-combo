@@ -1,0 +1,12 @@
+.ComboDownload button .MuiButton-label {
+	color: #424242;
+	font-family: 'Times New Roman', Times, serif;
+	font-weight: 200;
+}
+
+.ComboDownload button {
+	border: 10px solid;
+	border-image-slice: 1;
+	border-width: 3px;
+	border-image-source: linear-gradient(to right, #2ebf91, #8360c3);
+}

@@ -1,0 +1,24 @@
+.ComboCount {
+	margin: 0 auto;
+}
+
+.Combo-Label {
+	margin-top: 0px;
+	color: #424242;
+	font-family: 'Times New Roman', Times, serif;
+	font-weight: 100;
+}
+
+.Combo-Number {
+	text-align: center;
+	margin: 0 auto;
+	padding: 5px 10px;
+	border-radius: 5px;
+	color: #424242;
+	font-family: 'Times New Roman', Times, serif;
+	border: 10px solid;
+	border-image-slice: 1;
+	border-width: 3px;
+	border-image-source: linear-gradient(to right, #2ebf91, #8360c3);
+	margin-bottom: 2px;
+}

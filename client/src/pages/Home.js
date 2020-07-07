@@ -10,6 +10,7 @@ import ComboOutput from '../components/ComboOutput';
 
 // Media
 import Logo from '../assets/logo.png';
+import ComboListRaw from '../components/ComboListRaw';
 
 // Styles
 import './Home.css';
@@ -131,7 +132,7 @@ export class Home extends Component {
 		return (
 			<div className='Home'>
 				<div className='Home-Logo'>
-					<img src={Logo} alt='Wombo Combo Logo' width={400} height={200} />
+					<img src={Logo} alt='Wombo Combo Logo' />
 				</div>
 				<Zoom in={true} style={{ transitionDelay: '50ms' }}>
 					<div className='Home-Container'>
