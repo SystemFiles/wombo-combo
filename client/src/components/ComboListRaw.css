@@ -1,0 +1,48 @@
+.ComboListRaw .ComboList-Container {
+	width: 80%;
+}
+
+.ComboList-Container {
+	display: flex;
+	align-items: center;
+	width: 60%;
+	margin: 15px auto;
+	padding: 20px 15px;
+	text-align: left;
+	color: #000;
+	border-radius: 5px;
+	background: rgba(66, 66, 66, 0.2);
+	border: 1px solid #424242;
+}
+
+.ComboList-Container p {
+	margin-top: 0;
+	margin-bottom: 0;
+	width: 70%;
+	max-height: 200px;
+	overflow: scroll;
+	text-align: left;
+	font-family: 'Times New Roman', Times, serif;
+	font-weight: 200;
+	color: #424242;
+}
+
+.ComboList-Container button {
+	width: 30%;
+	vertical-align: middle;
+	height: 60px;
+	position: relative;
+	color: #424242;
+}
+
+@media only screen and (max-width: 600px) {
+	.ComboList-Container button {
+		margin-top: 30px;
+		width: 100%;
+	}
+
+	.ComboList-Container p {
+		width: 100%;
+		text-align: center;
+	}
+}

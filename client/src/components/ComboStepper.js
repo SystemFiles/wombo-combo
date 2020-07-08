@@ -1,7 +1,18 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Stepper, Step, StepLabel } from '@material-ui/core';
 
 export class ComboStepper extends Component {
+	static get propTypes() {
+		return {
+			activeStep : PropTypes.number
+		};
+	}
+
+	static defaultProps = {
+		activeStep : 0
+	};
+
 	render() {
 		return (
 			<Stepper activeStep={this.props.activeStep} alternativeLabel>

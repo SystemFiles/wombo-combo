@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react';
 import Loader from 'react-loader-spinner';
 import { Route, Switch } from 'react-router-dom';
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 
 // Styles
 import './App.css';
