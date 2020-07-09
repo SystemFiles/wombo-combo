@@ -70,7 +70,7 @@ export class ComboOutput extends Component {
 			<Zoom in style={{ transitionDelay: '50ms' }}>
 				<div className='ComboOutput'>
 					{this.state.loading ? (
-						<Loader type='TailSpin' color='#2ebf91' height={50} width={50} timeout={10000} />
+						<Loader type='TailSpin' color='#2ebf91' height={50} width={50} />
 					) : (
 						<div className='ComboOutput-Container'>
 							<Grid container>

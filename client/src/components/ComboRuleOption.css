@@ -1,0 +1,23 @@
+.ComboRuleOption-Buttons .MuiIconButton-label svg {
+	color: #40ac9b;
+}
+
+.ComboRuleOption-Buttons .MuiIconButton-label svg:hover {
+	color: #40ac9b;
+}
+
+.ComboRuleOption-Buttons .MuiCheckbox-colorSecondary.Mui-checked {
+	color: #40ac9b;
+}
+
+.ComboRuleOption-Buttons .MuiTouchRipple-root:hover {
+	color: #40ac9b;
+}
+
+.ComboRuleOption-Buttons .MuiIconButton-colorSecondary.Mui-checked:hover {
+	background-color: rgba(64, 172, 155, 0.04);
+}
+
+.ComboRuleOption-Buttons .MuiIconButton-colorSecondary:hover {
+	background-color: rgba(64, 172, 155, 0.04);
+}

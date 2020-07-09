@@ -33,6 +33,7 @@ export class Home extends Component {
 		this.getStepTitle = this.getStepTitle.bind(this);
 		this.getStepModule = this.getStepModule.bind(this);
 		this.onFileUpload = this.onFileUpload.bind(this);
+		this.updateVars = this.updateVars.bind(this);
 	}
 
 	/* HOME */
@@ -71,7 +72,7 @@ export class Home extends Component {
 					</div>
 				);
 			case 1:
-				return <ComboRules />;
+				return <ComboRules handleConfirm={this.updateVars} />;
 			case 2:
 				return 'Review your changes...';
 			case 3:
@@ -81,12 +82,20 @@ export class Home extends Component {
 		}
 	}
 
+	updateVars(data) {
+		this.setState((st) => ({
+			...st,
+			valid      : true,
+			serverVars : data
+		}));
+	}
+
 	handleForward() {
 		if (this.state.activeStep + 1 <= this.totalSteps) {
 			this.setState((st) => ({
 				activeStep : st.done ? st.activeStep : st.activeStep++,
 				done       : st.activeStep - 1 === this.totalSteps,
-				valid      : true // todo temp
+				valid      : false
 			}));
 		}
 	}
