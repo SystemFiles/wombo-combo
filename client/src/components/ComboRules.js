@@ -21,8 +21,12 @@ export class ComboRules extends Component {
 		super(props);
 
 		this.state = {
-			commonReplacements : false,
-			autoCorrect        : false
+			noChanges             : true,
+			commonReplacements    : false,
+			autoCorrect           : false,
+			wordPermutations      : false,
+			prefixSuffixInsertion : false,
+			commonPasswords       : false
 		};
 
 		this.handleCheck = this.handleCheck.bind(this);
@@ -31,11 +35,17 @@ export class ComboRules extends Component {
 
 	handleConfirm(evt) {
 		evt.preventDefault();
-		this.props.handleConfirm(this.state);
+		let { noChanges, ...vars } = this.state;
+		this.props.handleConfirm(vars);
+
+		this.setState({
+			noChanges : true
+		});
 	}
 
 	handleCheck(evt) {
 		this.setState({
+			noChanges         : false,
 			[evt.target.name]: evt.target.checked
 		});
 	}
@@ -52,14 +62,37 @@ export class ComboRules extends Component {
 							onChecked={this.handleCheck}
 						/>
 						<ComboRuleOption
-							label='Auto-correct checks (wordpass -> password)'
+							label='Auto-correct checks (wordpass => password)'
 							name='autoCorrect'
 							checked={this.state.autoCorrect}
 							onChecked={this.handleCheck}
 						/>
+						<ComboRuleOption
+							label='Word Permutations (pass => [sasp, assp, ssap, etc.])'
+							name='wordPermutations'
+							checked={this.state.wordPermutations}
+							onChecked={this.handleCheck}
+							disabled
+						/>
+						<ComboRuleOption
+							label='Prefix &amp; Suffix Insertion (pass => [$pass, pass%])'
+							name='prefixSuffixInsertion'
+							checked={this.state.prefixSuffixInsertion}
+							onChecked={this.handleCheck}
+							disabled
+						/>
+						<ComboRuleOption
+							label='Insert some pre-defined common passwords'
+							name='commonPasswords'
+							checked={this.state.commonPasswords}
+							onChecked={this.handleCheck}
+							disabled
+						/>
 					</div>
 					<div className='ComboRules-Confirm'>
-						<Button onClick={this.handleConfirm}>Confirm Rule Selection</Button>
+						<Button disabled={this.state.noChanges} onClick={this.handleConfirm}>
+							Confirm Rule Selection
+						</Button>
 					</div>
 				</div>
 			</Zoom>

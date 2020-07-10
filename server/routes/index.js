@@ -1,10 +1,6 @@
-const multer = require('multer');
 const express = require('express');
+const { uploader } = require('../middleware/multerFile');
 const router = express.Router();
-
-// Utils
-const storage = multer.memoryStorage();
-const uploader = multer({ storage: storage });
 
 // Controllers
 const { uploadFile } = require('../controllers/womboController');

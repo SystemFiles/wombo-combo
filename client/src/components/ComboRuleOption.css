@@ -10,6 +10,11 @@
 	color: #40ac9b;
 }
 
+.ComboRuleOption-Buttons .MuiCheckbox-colorSecondary.Mui-disabled {
+	color: rgba(66, 66, 66, 0.6);
+	opacity: 0.3;
+}
+
 .ComboRuleOption-Buttons .MuiTouchRipple-root:hover {
 	color: #40ac9b;
 }

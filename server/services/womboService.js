@@ -1,21 +1,58 @@
-const MAX_SIZE_MB = 10;
+const fs = require('fs');
+const readline = require('readline');
+const uuid = require('uuid');
 
-const buildCombo = (usernames, passwords) =>
+const buildCombo = (usernames, passwords, vars) =>
 	new Promise((resolve, reject) => {
 		try {
-			let usernameList = usernames.replace('\r', '').split('\n');
-			let passwordList = passwords.replace('\r', '').split('\n');
-			let comboList = [];
+			// TODO: Figure out how to read from username and password files and output to unique combolist file without wasting memory
 
-			for (let j = 0; j < usernameList.length; j++) {
-				const username = usernameList[j].replace('\r', '');
+			// Create filestream to write
+			let fileWriteStream = fs.createWriteStream(`uploads/combolist-${uuid.v4()}.txt`, {
+				flags : 'a'
+			});
 
-				for (let k = 0; k < passwordList.length; k++) {
-					const password = passwordList[k].replace('\r', '');
-					comboList.push(`${username}:${password}`);
+			// Create reader interface to pull data from file w/o wasting memory
+			let userReader = readline.createInterface({
+				input     : fs.createReadStream(usernames.path, {
+					flags : 'r'
+				}),
+				crlfDelay : Infinity
+			});
+			let passReader = readline.createInterface({
+				input     : fs.createReadStream(passwords.path, {
+					flags : 'r'
+				}),
+				crlfDelay : Infinity
+			});
+
+			let usernameList = [];
+			let passwordList = [];
+
+			// Write to combo file
+			userReader.on('line', (username) => {
+				usernameList.push(username);
+			});
+
+			passReader.on('line', (password) => {
+				passwordList.push(password);
+			});
+
+			fileWriteStream.write('hello');
+			fileWriteStream.write('hello');
+			fileWriteStream.write('hello');
+			fileWriteStream.write('hello');
+			fileWriteStream.write('hello');
+
+			for (let i = 0; i < usernameList.length; i++) {
+				for (let j = 0; j < passwordList.length; j++) {
+					fileWriteStream.write(usernameList[i] + ':' + passwordList[j]);
 				}
 			}
-			resolve(comboList.join('\n'));
+
+			fileWriteStream.close();
+
+			resolve('outputFile');
 		} catch (err) {
 			reject(err);
 		}
@@ -24,22 +61,22 @@ const buildCombo = (usernames, passwords) =>
 const upload = (files) =>
 	new Promise((resolve, reject) => {
 		for (let i = 0; i < files.length; i++) {
-			if (files[i].size > 1024 * 1024 * MAX_SIZE_MB) {
-				reject(`Sorry, the file you have uploaded exceeds ${MAX_SIZE_MB}MB cap... (size: ${files[i].size})`);
-			}
-
 			// Build the combo list for output
-			let usernamesBuffer = files[0].fieldname === 'usernames' ? files[0].buffer : files[1].buffer;
-			let passwordsBuffer = files[0].fieldname === 'passwords' ? files[0].buffer : files[1].buffer;
+			let usernamesFile = files[0].fieldname === 'usernames' ? files[0] : files[1];
+			let passwordsFile = files[0].fieldname === 'passwords' ? files[0] : files[1];
 
-			buildCombo(usernamesBuffer.toString(), passwordsBuffer.toString())
-				.then((result) => {
-					resolve(result);
-				})
-				.catch((err) => {
-					console.log(err);
-					reject(err);
-				});
+			if (usernamesFile != null && passwordsFile != null) {
+				buildCombo(usernamesFile, passwordsFile, null)
+					.then((result) => {
+						resolve(result);
+					})
+					.catch((err) => {
+						console.log(err);
+						reject(err);
+					});
+			} else {
+				reject(`Something went wrong trying to parse file streams...`);
+			}
 		}
 	});
 

@@ -11,6 +11,7 @@ export class ComboRuleOption extends Component {
 			name      : PropTypes.string,
 			label     : PropTypes.string,
 			checked   : PropTypes.bool,
+			disabled  : PropTypes.bool,
 			onChecked : PropTypes.func
 		};
 	}
@@ -19,6 +20,7 @@ export class ComboRuleOption extends Component {
 		name      : 'name',
 		label     : 'check this name',
 		checked   : false,
+		disabled  : false,
 		onChecked : () => console.log('Checkbox checked!')
 	};
 
@@ -40,6 +42,7 @@ export class ComboRuleOption extends Component {
 				</Grid>
 				<Grid className='ComboRules-Buttons' item xs={4}>
 					<Checkbox
+						disabled={this.props.disabled}
 						name={this.props.name}
 						checked={this.props.checked}
 						color='secondary'
