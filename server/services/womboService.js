@@ -1,58 +1,50 @@
 const fs = require('fs');
-const readline = require('readline');
+const es = require('event-stream');
 const uuid = require('uuid');
 
 const buildCombo = (usernames, passwords, vars) =>
 	new Promise((resolve, reject) => {
 		try {
-			// TODO: Figure out how to read from username and password files and output to unique combolist file without wasting memory
-
-			// Create filestream to write
-			let fileWriteStream = fs.createWriteStream(`uploads/combolist-${uuid.v4()}.txt`, {
-				flags : 'a'
+			// Output stream
+			let fileID = uuid.v4();
+			let comboOutStream = fs.createWriteStream(`uploads/comoblist-${fileID}.txt`, {
+				flags    : 'a',
+				encoding : 'utf-8'
 			});
 
-			// Create reader interface to pull data from file w/o wasting memory
-			let userReader = readline.createInterface({
-				input     : fs.createReadStream(usernames.path, {
-					flags : 'r'
-				}),
-				crlfDelay : Infinity
-			});
-			let passReader = readline.createInterface({
-				input     : fs.createReadStream(passwords.path, {
-					flags : 'r'
-				}),
-				crlfDelay : Infinity
-			});
+			let userRS = fs
+				.createReadStream(usernames.path, {
+					flags    : 'r',
+					encoding : 'utf-8'
+				})
+				.pipe(es.split())
+				.pipe(
+					es.mapSync((username) => {
+						userRS.pause();
 
-			let usernameList = [];
-			let passwordList = [];
+						let passRS = fs
+							.createReadStream(passwords.path, {
+								flags    : 'r',
+								encoding : 'utf-8'
+							})
+							.pipe(es.split())
+							.pipe(
+								es.mapSync((password) => {
+									passRS.pause();
 
-			// Write to combo file
-			userReader.on('line', (username) => {
-				usernameList.push(username);
-			});
+									// Write combo to file
+									comboOutStream.write(`${username}:${password}\n`);
 
-			passReader.on('line', (password) => {
-				passwordList.push(password);
-			});
+									passRS.resume();
+								})
+							);
 
-			fileWriteStream.write('hello');
-			fileWriteStream.write('hello');
-			fileWriteStream.write('hello');
-			fileWriteStream.write('hello');
-			fileWriteStream.write('hello');
+						userRS.resume();
+					})
+				);
 
-			for (let i = 0; i < usernameList.length; i++) {
-				for (let j = 0; j < passwordList.length; j++) {
-					fileWriteStream.write(usernameList[i] + ':' + passwordList[j]);
-				}
-			}
-
-			fileWriteStream.close();
-
-			resolve('outputFile');
+			userRS.once('end', () => resolve(`uploads/comoblist-${fileID}.txt`));
+			// TODO: Fix async error resolving file path before file write is done.
 		} catch (err) {
 			reject(err);
 		}
@@ -60,23 +52,21 @@ const buildCombo = (usernames, passwords, vars) =>
 
 const upload = (files) =>
 	new Promise((resolve, reject) => {
-		for (let i = 0; i < files.length; i++) {
-			// Build the combo list for output
-			let usernamesFile = files[0].fieldname === 'usernames' ? files[0] : files[1];
-			let passwordsFile = files[0].fieldname === 'passwords' ? files[0] : files[1];
+		// Build the combo list for output
+		let usernamesFile = files[0].fieldname === 'usernames' ? files[0] : files[1];
+		let passwordsFile = files[0].fieldname === 'passwords' ? files[0] : files[1];
 
-			if (usernamesFile != null && passwordsFile != null) {
-				buildCombo(usernamesFile, passwordsFile, null)
-					.then((result) => {
-						resolve(result);
-					})
-					.catch((err) => {
-						console.log(err);
-						reject(err);
-					});
-			} else {
-				reject(`Something went wrong trying to parse file streams...`);
-			}
+		if (usernamesFile != null && passwordsFile != null) {
+			buildCombo(usernamesFile, passwordsFile, null)
+				.then((result) => {
+					resolve(result);
+				})
+				.catch((err) => {
+					console.log(err);
+					reject(err);
+				});
+		} else {
+			reject(`Something went wrong trying to parse file streams...`);
 		}
 	});
 

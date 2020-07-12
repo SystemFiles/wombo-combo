@@ -1,4 +1,7 @@
+const path = require('path');
 const { upload } = require('../services/womboService');
+
+const appDir = path.dirname(require.main.filename);
 const MAX_SIZE_MB = 5;
 
 const uploadFile = async (req, res, next) => {
@@ -11,8 +14,9 @@ const uploadFile = async (req, res, next) => {
 	}
 
 	upload(files)
-		.then((data) => {
-			res.status(200).send(data);
+		.then((path) => {
+			console.log(appDir + '/' + path);
+			res.status(200).sendFile(path, { root: '../server' });
 		})
 		.catch((err) => {
 			res.status(500).send(err) && next(err);
