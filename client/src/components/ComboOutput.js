@@ -53,13 +53,13 @@ export class ComboOutput extends Component {
 		data.append('vars', this.props.vars)
 
 		// Upload and let server build combolist
-		let response = await axios.post(UPLOAD_ENDPOINT, data)
+		let uploadResponse = await axios.post(UPLOAD_ENDPOINT, data)
 
 		// Download combolist from server
 		try {
 			let downloadResponse = await axios.get(DOWNLOAD_ENDPOINT, {
 				params : {
-					fileID : response.data.fileID
+					fileID : uploadResponse.data.fileID
 				}
 			})
 

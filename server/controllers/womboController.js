@@ -1,5 +1,7 @@
 const path = require('path')
+const fs = require('fs-extra')
 const { upload } = require('../services/womboService')
+const { response } = require('express')
 
 const appDir = path.dirname(require.main.filename)
 const MAX_SIZE_MB = 5
@@ -14,12 +16,18 @@ const uploadFile = async (req, res, next) => {
 	}
 
 	upload(files)
-		.then((fileID) => {
-			res.status(200).send(
-				JSON.stringify({
-					fileID : fileID
-				})
-			)
+		.then(async (resp) => {
+			try {
+				await Promise.all([
+					fs.remove(`${appDir}/uploads/${resp.userFileName}`),
+					fs.remove(`${appDir}/uploads/${resp.passFileName}`)
+				])
+
+				res.status(200).send(JSON.stringify({ fileID: resp.fileID }))
+			} catch (err) {
+				console.log(err)
+				res.status(500).send({ message: 'Failed to remove uploads.' })
+			}
 		})
 		.catch((err) => {
 			res.status(500).send(err) && next(err)
@@ -28,9 +36,15 @@ const uploadFile = async (req, res, next) => {
 
 const getComboFile = async (req, res) => {
 	const fileID = req.query.fileID
-	console.log(`Sending file with fileID: ${fileID}`)
+	try {
+		res.sendFile(`exports/combo-list-${fileID}.txt`, { root: appDir })
 
-	await res.sendFile(`exports/combo-list-${fileID}.txt`, { root: appDir })
+		// Remove combo-list from storage
+		await fs.remove(`${appDir}/exports/combo-list-${fileID}.txt`)
+	} catch (err) {
+		console.log(`ERROR: Problem sending and removing combo-list from storage... ${err}`)
+		res.status(500).send({ message: 'Failed to remove/send combo-list file.' })
+	}
 }
 
 module.exports = {

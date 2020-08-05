@@ -1,7 +1,7 @@
 const stream = require('stream')
 const util = require('util')
 const readline = require('readline')
-const fs = require('fs')
+const fs = require('fs-extra')
 const os = require('os')
 const resolve = require('path').resolve
 const uuid = require('uuid').v4
@@ -30,7 +30,11 @@ const buildCombo = (usernames, passwords, vars) =>
 		const comboPath = `exports/combo-list-${fileID}.txt`
 		combineUserPass(usernames, passwords, comboPath)
 			.then(() => {
-				resolve(fileID)
+				resolve({
+					userFileName : usernames.filename,
+					passFileName : passwords.filename,
+					fileID       : fileID
+				})
 			})
 			.catch((err) => {
 				reject(err)

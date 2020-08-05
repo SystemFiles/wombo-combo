@@ -1,18 +1,17 @@
-const multer = require('multer');
+const multer = require('multer')
 
 // Configure
-// const storage = multer.memoryStorage(); // Used for local memory storage (volatile for use-case)
 const storage = multer.diskStorage({
 	destination : (req, file, cb) => {
-		cb(null, 'uploads');
+		cb(null, 'uploads')
 	},
 	filename    : (req, file, cb) => {
-		cb(null, file.fieldname + '-' + file.originalname);
+		cb(null, file.fieldname + '-' + Date.now() + '.txt')
 	}
-});
+})
 
-const uploader = multer({ storage: storage });
+const uploader = multer({ storage: storage })
 
 module.exports = {
 	uploader
-};
+}
