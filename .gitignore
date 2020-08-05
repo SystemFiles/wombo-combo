@@ -103,5 +103,9 @@ dist
 # TernJS port file
 .tern-port
 
-# Uploads folder for multer
+# Uploaded files in testing & exports files in testing
 uploads/
+exports/
+
+# Mac files
+.DS_Store

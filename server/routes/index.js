@@ -1,11 +1,12 @@
-const express = require('express');
-const { uploader } = require('../middleware/multerFile');
-const router = express.Router();
+const express = require('express')
+const { uploader } = require('../middleware/multerFile')
+const router = express.Router()
 
 // Controllers
-const { uploadFile } = require('../controllers/womboController');
+const { uploadFile, getComboFile } = require('../controllers/womboController')
 
 // Routes
-router.post('/list/upload', uploader.any(), uploadFile);
+router.post('/list/upload', uploader.any(), uploadFile)
+router.get('/list/download', getComboFile)
 
-module.exports = router;
+module.exports = router
