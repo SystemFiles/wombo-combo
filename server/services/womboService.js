@@ -1,48 +1,66 @@
-const MAX_SIZE_MB = 200;
+const stream = require('stream')
+const util = require('util')
+const readline = require('readline')
+const fs = require('fs-extra')
+const os = require('os')
+const resolve = require('path').resolve
+const uuid = require('uuid').v4
 
-const buildCombo = (usernames, passwords) =>
-	new Promise((resolve, reject) => {
-		try {
-			let usernameList = usernames.replace('\r', '').split('\n');
-			let passwordList = passwords.replace('\r', '').split('\n');
-			let comboList = [];
+/** Returns a readable stream as an async iterable over text lines */
+function lineIteratorFromFile(fileStream) {
+	return readline.createInterface({
+		input     : fileStream,
+		crlfDelay : Infinity
+	})
+}
 
-			for (let j = 0; j < usernameList.length; j++) {
-				const username = usernameList[j].replace('\r', '');
-
-				for (let k = 0; k < passwordList.length; k++) {
-					const password = passwordList[k].replace('\r', '');
-					comboList.push(`${username}:${password}`);
-				}
+async function combineUserPass(usernames, passwords, outFilePath) {
+	await util.promisify(stream.pipeline)(async function*() {
+		for await (const lineA of lineIteratorFromFile(fs.createReadStream(usernames.path))) {
+			for await (const lineB of lineIteratorFromFile(fs.createReadStream(passwords.path))) {
+				yield `${lineA}:${lineB}${os.EOL}`
 			}
-			resolve(comboList.join('\n'));
-		} catch (err) {
-			reject(err);
 		}
-	});
+	}, fs.createWriteStream(outFilePath))
+}
+
+const buildCombo = (usernames, passwords, vars) =>
+	new Promise((resolve, reject) => {
+		const fileID = uuid()
+		const comboPath = `exports/combo-list-${fileID}.txt`
+		combineUserPass(usernames, passwords, comboPath)
+			.then(() => {
+				resolve({
+					userFileName : usernames.filename,
+					passFileName : passwords.filename,
+					fileID       : fileID
+				})
+			})
+			.catch((err) => {
+				reject(err)
+			})
+	})
 
 const upload = (files) =>
 	new Promise((resolve, reject) => {
-		for (let i = 0; i < files.length; i++) {
-			if (files[i].size > 1024 * MAX_SIZE_MB) {
-				reject(`Sorry, the file you have uploaded exceeds ${MAX_SIZE_MB}MB cap... (size: ${files[i].size})`);
-			}
+		// Build the combo list for output
+		let usernamesFile = files[0].fieldname === 'usernames' ? files[0] : files[1]
+		let passwordsFile = files[0].fieldname === 'passwords' ? files[0] : files[1]
 
-			// Build the combo list for output
-			let usernamesBuffer = files[0].fieldname === 'usernames' ? files[0].buffer : files[1].buffer;
-			let passwordsBuffer = files[0].fieldname === 'passwords' ? files[0].buffer : files[1].buffer;
-
-			buildCombo(usernamesBuffer.toString(), passwordsBuffer.toString())
-				.then((result) => {
-					resolve(result);
+		if (usernamesFile != null && passwordsFile != null) {
+			buildCombo(usernamesFile, passwordsFile, null)
+				.then((fileID) => {
+					resolve(fileID)
 				})
 				.catch((err) => {
-					console.log(err);
-					reject(err);
-				});
+					console.log(err)
+					reject(err)
+				})
+		} else {
+			reject(`Something went wrong trying to parse file streams...`)
 		}
-	});
+	})
 
 module.exports = {
 	upload
-};
+}

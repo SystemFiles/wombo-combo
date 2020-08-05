@@ -1,21 +1,26 @@
 language: node_js
 node_js:
   - "stable"
+cache:
+  npm: true
 
 services:
   - docker
 
+before_install:
+  - sudo apt-get update
+  - sudo apt-get -y install bash
+
 before_script:
-  - cd ${TRAVIS_BUILD_DIR}/client/ && export CLIENT_VER=$(npm version patch | cut -c 2-)
+  - export CLIENT_VER=$(node -p -e "require('${TRAVIS_BUILD_DIR}/client/package.json').version")
+  - export CLIENT_NAME=$(node -p -e "require('${TRAVIS_BUILD_DIR}/client/package.json').name")
+  - export SERVER_VER=$(node -p -e "require('${TRAVIS_BUILD_DIR}/server/package.json').version")
+  - export SERVER_NAME=$(node -p -e "require('${TRAVIS_BUILD_DIR}/server/package.json').name")
 
 stages:
   - name: lint-client
     if: branch != master
   - name: lint-server
-    if: branch != master
-  - name: test-client
-    if: branch != master
-  - name: test-server
     if: branch != master
   - name: build-push-client
     if: branch = master
@@ -41,6 +46,16 @@ jobs:
       script:
         - cd ${TRAVIS_BUILD_DIR}/server/ && npm install eslint
         - npm run lint
+    - stage: build-push-client
+      script:
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+        - docker build -t $DOCKER_ID/${CLIENT_NAME}:${CLIENT_VER} -f ${TRAVIS_BUILD_DIR}/client/Dockerfile ${TRAVIS_BUILD_DIR}/client
+        - docker push $DOCKER_ID/${CLIENT_NAME}:${CLIENT_VER}
+    - stage: build-push-server
+      script:
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+        - docker build -t $DOCKER_ID/${SERVER_NAME}:${SERVER_VER} -f ${TRAVIS_BUILD_DIR}/server/Dockerfile ${TRAVIS_BUILD_DIR}/server
+        - docker push $DOCKER_ID/${SERVER_NAME}:${SERVER_VER}
     - stage: deploy
       script:
         - ${TRAVIS_BUILD_DIR}/.travis/deploy.sh

@@ -102,3 +102,10 @@ dist
 
 # TernJS port file
 .tern-port
+
+# Uploaded files in testing & exports files in testing
+uploads/
+exports/
+
+# Mac files / OS-Specific Files
+.DS_Store
