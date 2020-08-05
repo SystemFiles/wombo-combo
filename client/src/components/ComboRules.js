@@ -1,53 +1,53 @@
-import React, { Component } from 'react';
-import { Button, Zoom } from '@material-ui/core';
-import PropTypes from 'prop-types';
-import ComboRuleOption from './ComboRuleOption';
+import React, { Component } from 'react'
+import { Button, Zoom } from '@material-ui/core'
+import PropTypes from 'prop-types'
+import ComboRuleOption from './ComboRuleOption'
 
 // Styles
-import './ComboRules.css';
+import './ComboRules.css'
 
 export class ComboRules extends Component {
 	static get propTypes() {
 		return {
 			handleConfirm : PropTypes.func
-		};
+		}
 	}
 
 	static defaultProps = {
 		handleConfirm : () => console.log('Confirmed selection')
-	};
+	}
 
 	constructor(props) {
-		super(props);
+		super(props)
 
 		this.state = {
-			noChanges             : true,
+			noChanges             : false,
 			commonReplacements    : false,
 			autoCorrect           : false,
 			wordPermutations      : false,
 			prefixSuffixInsertion : false,
 			commonPasswords       : false
-		};
+		}
 
-		this.handleCheck = this.handleCheck.bind(this);
-		this.handleConfirm = this.handleConfirm.bind(this);
+		this.handleCheck = this.handleCheck.bind(this)
+		this.handleConfirm = this.handleConfirm.bind(this)
 	}
 
 	handleConfirm(evt) {
-		evt.preventDefault();
-		let { noChanges, ...vars } = this.state;
-		this.props.handleConfirm(vars);
+		evt.preventDefault()
+		let { ...vars } = this.state
+		this.props.handleConfirm(vars)
 
 		this.setState({
 			noChanges : true
-		});
+		})
 	}
 
 	handleCheck(evt) {
 		this.setState({
 			noChanges         : false,
 			[evt.target.name]: evt.target.checked
-		});
+		})
 	}
 
 	render() {
@@ -96,8 +96,8 @@ export class ComboRules extends Component {
 					</div>
 				</div>
 			</Zoom>
-		);
+		)
 	}
 }
 
-export default ComboRules;
+export default ComboRules

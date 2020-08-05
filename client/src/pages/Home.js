@@ -99,10 +99,18 @@ export class Home extends Component {
 
 	handleForward() {
 		if (this.state.activeStep + 1 <= this.totalSteps) {
-			this.setState((st) => ({
-				activeStep : st.done ? st.activeStep : st.activeStep++,
-				valid      : false
-			}))
+			if (this.state.activeStep + 1 === 2) {
+				// If this is review page (default valid with no input)
+				this.setState((st) => ({
+					activeStep : st.activeStep++,
+					valid      : true
+				}))
+			} else {
+				this.setState((st) => ({
+					activeStep : st.restartOption ? st.activeStep : st.activeStep++,
+					valid      : false
+				}))
+			}
 		} else {
 			if (this.state.restartOption) {
 				this.setState({
