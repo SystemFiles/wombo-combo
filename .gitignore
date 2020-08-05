@@ -107,5 +107,5 @@ dist
 uploads/
 exports/
 
-# Mac files
+# Mac files / OS-Specific Files
 .DS_Store
