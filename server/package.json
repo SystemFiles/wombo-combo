@@ -1,5 +1,5 @@
 {
-	"name": "server",
+	"name": "wombo-combo-server",
 	"version": "1.0.0",
 	"description": "The server that performs all of the combo build processes ",
 	"main": "server.js",
