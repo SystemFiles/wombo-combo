@@ -32,10 +32,11 @@ export class ComboOutput extends Component {
 		super(props)
 
 		this.state = {
-			loading    : true,
-			comboList  : '',
-			comboCount : 0,
-			error      : false
+			loading      : true,
+			comboList    : '',
+			comboCount   : 0,
+			error        : false,
+			errorMessage : ''
 		}
 
 		this.buildComboList = this.buildComboList.bind(this)
@@ -55,16 +56,20 @@ export class ComboOutput extends Component {
 		// Upload and let server build combolist
 		let uploadResponse = await axios.post(UPLOAD_ENDPOINT, data)
 
-		// Download combolist from server
-		try {
+		if (uploadResponse.data.status === 500) {
+			this.setState({ loading: false, error: true, errorMessage: uploadResponse.data.message })
+		} else {
+			// Download combolist from server
 			let downloadResponse = await axios.get(DOWNLOAD_ENDPOINT, {
 				params : {
 					fileID : uploadResponse.data.fileID
 				}
 			})
 
-			// Format data and verify success
-			if (downloadResponse.status === 200) {
+			if (downloadResponse.data.status === 500) {
+				this.setState({ loading: false, error: true, errorMessage: downloadResponse.data.message })
+			} else {
+				// Format data and verify success
 				let contentLength = downloadResponse.data.split('\n').length
 				setTimeout(() => {
 					this.setState({
@@ -73,12 +78,7 @@ export class ComboOutput extends Component {
 						comboList  : downloadResponse.data
 					})
 				}, 500)
-			} else {
-				this.setState({ loading: false, error: true })
 			}
-		} catch (err) {
-			console.log(`Error downloading combolist: ${err}`)
-			this.setState({ loading: false, error: true })
 		}
 	}
 
@@ -94,12 +94,12 @@ export class ComboOutput extends Component {
 								<span role='img' aria-label='warning-emoji'>
 									⚠️
 								</span>{' '}
-								Couldn&apos;t find the requested file{' '}
+								We ran into a problem{' '}
 								<span role='img' aria-label='warning-emoji'>
 									⚠️
 								</span>
 							</h3>
-							<p>Please try again later</p>
+							<p>{this.state.errorMessage}</p>
 						</div>
 					) : (
 						<div className='ComboOutput-Container'>
@@ -109,9 +109,11 @@ export class ComboOutput extends Component {
 									<ComboDownload list={this.state.comboList} />
 								</Grid>
 								<Grid className='ComboOutput-Section' item xs={12}>
-									<Suspense fallback={<p>...</p>}>
-										<ComboListRaw list={this.state.comboList} />
-									</Suspense>
+									{this.state.comboCount <= 10000 ? (
+										<Suspense fallback={<p>...</p>}>
+											<ComboListRaw list={this.state.comboList} />
+										</Suspense>
+									) : null}
 								</Grid>
 							</Grid>
 						</div>

@@ -35,7 +35,6 @@ export class Home extends Component {
 		this.onFileUpload = this.onFileUpload.bind(this)
 		this.updateVars = this.updateVars.bind(this)
 		this.setRestartAvailable = this.setRestartAvailable.bind(this)
-		this.resetApplication = this.resetApplication.bind(this)
 	}
 
 	/* HOME */
@@ -102,15 +101,16 @@ export class Home extends Component {
 		if (this.state.activeStep + 1 <= this.totalSteps) {
 			this.setState((st) => ({
 				activeStep : st.done ? st.activeStep : st.activeStep++,
-				done       : st.activeStep - 1 === this.totalSteps,
 				valid      : false
 			}))
 		} else {
 			if (this.state.restartOption) {
 				this.setState({
-					activeStep : 0,
-					done       : false,
-					valid      : false
+					activeStep    : 0,
+					valid         : false,
+					restartOption : false,
+					startFiles    : null,
+					serverVars    : null
 				})
 			}
 		}
@@ -119,25 +119,14 @@ export class Home extends Component {
 	handleBack() {
 		if (this.state.activeStep - 1 >= 0) {
 			this.setState((st) => ({
-				activeStep : st.activeStep--,
-				done       : st.activeStep - 1 === this.totalSteps
+				activeStep    : st.activeStep--,
+				restartOption : false
 			}))
 		}
 	}
 
 	setRestartAvailable() {
 		this.setState({ restartOption: true, valid: true })
-	}
-
-	resetApplication() {
-		this.setState({
-			restartOption : false,
-			valid         : false,
-			done          : false,
-			activeStep    : 0,
-			serverVars    : null,
-			startFiles    : null
-		})
 	}
 
 	/* HOME */
