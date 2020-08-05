@@ -1,7 +1,6 @@
 const path = require('path')
 const fs = require('fs-extra')
 const { upload } = require('../services/womboService')
-const { response } = require('express')
 
 const appDir = path.dirname(require.main.filename)
 const MAX_SIZE_MB = 5

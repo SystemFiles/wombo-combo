@@ -6,7 +6,6 @@ const { mainLimiter } = require('./middleware/rateLimiter')
 // setup
 const app = express()
 const routes = require('./routes')
-const config = require('./config')
 
 // configure
 app.set('trust proxy', 1)
