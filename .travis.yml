@@ -31,7 +31,7 @@ stages:
   - name: build-push-server
     if: branch = master
   - name: deploy
-    if: branch = master
+    if: ( branch = master ) AND ( tag IS present ) AND ( env(LIVE) = "true" )
 
 jobs:
   allow_failures:
@@ -63,6 +63,3 @@ jobs:
     - stage: deploy
       script:
         - ${TRAVIS_BUILD_DIR}/.travis/deploy.sh
-      on:
-        tags: true
-        condition: $LIVE = true
