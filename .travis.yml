@@ -63,5 +63,3 @@ jobs:
     - stage: deploy
       script:
         - ${TRAVIS_BUILD_DIR}/.travis/deploy.sh
-      on:
-        tags: true
