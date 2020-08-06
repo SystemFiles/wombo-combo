@@ -97,11 +97,11 @@ export class Home extends Component {
 	}
 
 	updateVars(data) {
-		let { noChanges, ...formData } = data
+		delete data.noChanges
 		this.setState((st) => ({
 			...st,
 			valid      : true,
-			serverVars : formData
+			serverVars : data
 		}))
 	}
 
