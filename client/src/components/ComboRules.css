@@ -1,6 +1,7 @@
 .ComboRules {
 	max-height: 300px;
 	overflow: scroll;
+	padding: 15px;
 }
 
 .ComboRules-Confirm button {

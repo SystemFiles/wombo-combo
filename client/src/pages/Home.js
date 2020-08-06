@@ -6,6 +6,7 @@ import ComboStepper from '../components/ComboStepper'
 // Modules
 import FileUpload from '../components/FileUpload'
 import ComboRules from '../components/ComboRules'
+import ComboReview from '../components/ComboReview'
 import ComboOutput from '../components/ComboOutput'
 
 // Media
@@ -75,7 +76,13 @@ export class Home extends Component {
 			case 1:
 				return <ComboRules handleConfirm={this.updateVars} />
 			case 2:
-				return 'Review your changes...'
+				return (
+					<ComboReview
+						userFile={this.state.startFiles.usernames}
+						passFile={this.state.startFiles.passwords}
+						manglingOptions={this.state.serverVars}
+					/>
+				)
 			case 3:
 				return (
 					<ComboOutput
@@ -90,6 +97,7 @@ export class Home extends Component {
 	}
 
 	updateVars(data) {
+		delete data.noChanges
 		this.setState((st) => ({
 			...st,
 			valid      : true,
