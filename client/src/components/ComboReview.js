@@ -21,8 +21,6 @@ export class ComboReview extends Component {
 	}
 
 	render() {
-		console.log(this.props)
-
 		return (
 			<div className='ComboReview'>
 				<Grid container>
