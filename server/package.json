@@ -40,7 +40,7 @@
 				"warn"
 			],
 			"no-var": [
-				"off"
+				"warn"
 			],
 			"one-var": [
 				"off"
