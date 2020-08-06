@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Grid, Checkbox } from '@material-ui/core';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { Grid, Checkbox } from '@material-ui/core'
 
 // Style
-import './ComboRuleOption.css';
+import './ComboRuleOption.css'
 
 export class ComboRuleOption extends Component {
 	static get propTypes() {
@@ -13,7 +13,7 @@ export class ComboRuleOption extends Component {
 			checked   : PropTypes.bool,
 			disabled  : PropTypes.bool,
 			onChecked : PropTypes.func
-		};
+		}
 	}
 
 	static defaultProps = {
@@ -22,16 +22,15 @@ export class ComboRuleOption extends Component {
 		checked   : false,
 		disabled  : false,
 		onChecked : () => console.log('Checkbox checked!')
-	};
+	}
 
 	constructor(props) {
-		super(props);
-
-		this.handleChecked = this.handleChecked.bind(this);
+		super(props)
+		this.handleChecked = this.handleChecked.bind(this)
 	}
 
 	handleChecked(evt) {
-		this.props.onChecked(evt);
+		this.props.onChecked(evt)
 	}
 
 	render() {
@@ -50,8 +49,8 @@ export class ComboRuleOption extends Component {
 					/>
 				</Grid>
 			</Grid>
-		);
+		)
 	}
 }
 
-export default ComboRuleOption;
+export default ComboRuleOption

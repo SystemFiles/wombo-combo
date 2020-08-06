@@ -1,3 +1,11 @@
+.ComboRules-Labels p {
+	text-align: left;
+}
+
+.ComboRules-Buttons {
+	text-align: right;
+}
+
 .ComboRuleOption-Buttons .MuiIconButton-label svg {
 	color: #40ac9b;
 }
