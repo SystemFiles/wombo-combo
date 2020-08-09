@@ -3,7 +3,6 @@ const util = require('util')
 const readline = require('readline')
 const fs = require('fs-extra')
 const os = require('os')
-const resolve = require('path').resolve
 const uuid = require('uuid').v4
 
 /** Returns a readable stream as an async iterable over text lines */
@@ -16,9 +15,9 @@ function lineIteratorFromFile(fileStream) {
 
 async function combineUserPass(usernames, passwords, outFilePath) {
 	await util.promisify(stream.pipeline)(async function*() {
-		for await (const lineA of lineIteratorFromFile(fs.createReadStream(usernames.path))) {
-			for await (const lineB of lineIteratorFromFile(fs.createReadStream(passwords.path))) {
-				yield `${lineA}:${lineB}${os.EOL}`
+		for await (const username of lineIteratorFromFile(fs.createReadStream(usernames.path))) {
+			for await (const password of lineIteratorFromFile(fs.createReadStream(passwords.path))) {
+				yield `${username}:${password}${os.EOL}`
 			}
 		}
 	}, fs.createWriteStream(outFilePath))
