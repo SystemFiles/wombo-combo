@@ -3,6 +3,7 @@ const util = require('util')
 const readline = require('readline')
 const fs = require('fs-extra')
 const os = require('os')
+const { addMispelledWords } = require('./manglingService')
 const uuid = require('uuid').v4
 
 /** Returns a readable stream as an async iterable over text lines */
@@ -23,31 +24,68 @@ async function combineUserPass(usernames, passwords, outFilePath) {
 	}, fs.createWriteStream(outFilePath))
 }
 
+const manglePasswords = async (passwordFile, selections) => {
+	let manglePromises = []
+
+	if (selections) {
+		if (selections.autoCorrect === 'true') {
+			manglePromises.push(addMispelledWords(passwordFile.path))
+		}
+		if (selections.commonPasswords === 'true') {
+			// Pass
+		}
+		if (selections.commonReplacements === 'true') {
+			// Pass
+		}
+		if (selections.prefixSuffixInsertion === 'true') {
+			// Pass
+		}
+		if (selections.wordPermutations === 'true') {
+			// Pass
+		}
+	}
+
+	if (manglePromises.length > 0) {
+		await Promise.all(manglePromises)
+	} else {
+		console.log('No mangling rules selected...skipping')
+	}
+}
+
 const buildCombo = (usernames, passwords, vars) =>
 	new Promise((resolve, reject) => {
+		// Generate combo result path & ID
 		const fileID = uuid()
 		const comboPath = `exports/combo-list-${fileID}.txt`
-		combineUserPass(usernames, passwords, comboPath)
+
+		// Mangle password with selected rules
+		manglePasswords(passwords, vars)
 			.then(() => {
-				resolve({
-					userFileName : usernames.filename,
-					passFileName : passwords.filename,
-					fileID       : fileID
-				})
+				// Combine usernames and passwords
+				combineUserPass(usernames, passwords, comboPath)
+					.then(() => {
+						resolve({
+							userFileName : usernames.filename,
+							passFileName : passwords.filename,
+							fileID       : fileID
+						})
+					})
+					.catch((err) => {
+						reject(err)
+					})
 			})
-			.catch((err) => {
-				reject(err)
-			})
+			.catch((err) => reject(err))
 	})
 
-const upload = (files) =>
+const upload = (files, vars) =>
 	new Promise((resolve, reject) => {
 		// Build the combo list for output
 		let usernamesFile = files[0].fieldname === 'usernames' ? files[0] : files[1]
 		let passwordsFile = files[0].fieldname === 'passwords' ? files[0] : files[1]
 
-		if (usernamesFile != null && passwordsFile != null) {
-			buildCombo(usernamesFile, passwordsFile, null)
+		// If we have everything, build combo with rules (vars)
+		if (usernamesFile != null && passwordsFile != null && vars != null) {
+			buildCombo(usernamesFile, passwordsFile, vars)
 				.then((fileID) => {
 					resolve(fileID)
 				})
@@ -56,7 +94,7 @@ const upload = (files) =>
 					reject(err)
 				})
 		} else {
-			reject(`Something went wrong trying to parse file streams...`)
+			reject(`Something went wrong trying to read request data...`)
 		}
 	})
 

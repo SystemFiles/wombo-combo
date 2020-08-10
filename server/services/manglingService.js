@@ -47,7 +47,6 @@ const rebuildPassphraseWithSuggested = (original, suggestions, extractedWord) =>
 // modifies the provided password file with the added word suggestions
 const addMispelledWords = async (passFile) => {
 	const readStream = fs.createReadStream(passFile)
-
 	const rl = readline.createInterface({
 		input     : readStream,
 		crlfDelay : Infinity
@@ -66,23 +65,6 @@ const addMispelledWords = async (passFile) => {
 		Promise.reject('Failed to perform spell-check mangling operation')
 	}
 }
-
-// --- Test functions --- //
-// let password = '%4@6&sur%2$66'
-// let extractedWord = extractWordWithIndex(password)
-// let foundWords = getSpellCheckMatches(extractedWord.word)
-// console.log(rebuildPassphraseWithSuggested(password, foundWords, extractedWord))
-
-// --- Test full --- //
-;(async () => {
-	console.log('Adding mispelled words to password list...')
-	try {
-		await addMispelledWords(__dirname + '/testData.txt')
-	} catch (err) {
-		console.log('ERROR')
-	}
-	console.log('Done!')
-})()
 
 module.exports = {
 	addMispelledWords
