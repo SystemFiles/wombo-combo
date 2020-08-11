@@ -54,31 +54,42 @@ export class ComboOutput extends Component {
 		data.append('vars', this.props.vars)
 
 		// Upload and let server build combolist
-		let uploadResponse = await axios.post(UPLOAD_ENDPOINT, data)
+		try {
+			let uploadResponse = await axios.post(UPLOAD_ENDPOINT, data, { params: { vars: this.props.vars } })
 
-		if (uploadResponse.data.status === 500) {
-			this.setState({ loading: false, error: true, errorMessage: uploadResponse.data.message })
-		} else {
-			// Download combolist from server
-			let downloadResponse = await axios.get(DOWNLOAD_ENDPOINT, {
-				params : {
-					fileID : uploadResponse.data.fileID
-				}
-			})
-
-			if (downloadResponse.data.status === 500) {
-				this.setState({ loading: false, error: true, errorMessage: downloadResponse.data.message })
+			if (uploadResponse.data.status === 500) {
+				this.setState({ loading: false, error: true, errorMessage: uploadResponse.data.message })
 			} else {
-				// Format data and verify success
-				let contentLength = downloadResponse.data.split('\n').length
-				setTimeout(() => {
-					this.setState({
-						loading    : false,
-						comboCount : contentLength,
-						comboList  : downloadResponse.data
-					})
-				}, 500)
+				// Download combolist from server
+				let downloadResponse = await axios.get(DOWNLOAD_ENDPOINT, {
+					params : {
+						fileID : uploadResponse.data.fileID
+					}
+				})
+
+				if (downloadResponse.data.status === 500) {
+					this.setState({ loading: false, error: true, errorMessage: downloadResponse.data.message })
+				} else {
+					// Format data and verify success
+					let contentLength = downloadResponse.data.split('\n').length
+					setTimeout(() => {
+						this.setState({
+							loading    : false,
+							comboCount : contentLength,
+							comboList  : downloadResponse.data
+						})
+					}, 500)
+				}
 			}
+		} catch (err) {
+			console.log(`${err}`)
+
+			// Show error message and stop loading infinitely...
+			this.setState({
+				error        : true,
+				errorMessage : `Problem building combo list...try again`,
+				loading      : false
+			})
 		}
 	}
 

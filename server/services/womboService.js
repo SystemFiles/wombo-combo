@@ -31,10 +31,10 @@ const manglePasswords = async (passwordFile, selections) => {
 	let manglePromises = []
 
 	if (selections) {
-		if (selections.autoCorrect === 'true') {
+		if (selections.autoCorrect === true || selections.autoCorrect === 'true') {
 			manglePromises.push(addMispelledWords(passwordFile.path))
 		}
-		if (selections.commonReplacements === 'true') {
+		if (selections.commonReplacements === true || selections.commonReplacements === 'true') {
 			manglePromises.push(addCommonReplacements(passwordFile.path))
 		}
 		if (selections.prefixSuffixInsertion === 'true') {
@@ -43,7 +43,7 @@ const manglePasswords = async (passwordFile, selections) => {
 		if (selections.wordPermutations === 'true') {
 			// Pass
 		}
-		if (selections.commonPasswords === 'true') {
+		if (selections.commonPasswords === true || selections.commonPasswords === 'true') {
 			manglePromises.push(addCommonPasswords(passwordFile.path))
 		}
 	}

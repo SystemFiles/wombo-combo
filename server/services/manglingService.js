@@ -183,8 +183,7 @@ const addCommonReplacements = async (passFile) => {
 	try {
 		await util.promisify(stream.pipeline)(async function*() {
 			for await (const password of readStream) {
-				let replacements = await replaceWord(`${password}`)
-				yield `${replacements.join('\n')}`
+				yield `${(await replaceWord(`${password}`)).join('\n')}`
 			}
 		}, fs.createWriteStream(passFile, { flags: 'a' }))
 	} catch (err) {
