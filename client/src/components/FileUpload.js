@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Grid, Button, TextField, Zoom } from '@material-ui/core';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { Grid, Button, TextField, Zoom } from '@material-ui/core'
 
 // Styles
-import './FileUpload.css';
+import './FileUpload.css'
 
 export class FileUpload extends Component {
 	static get propTypes() {
@@ -13,7 +13,7 @@ export class FileUpload extends Component {
 			color       : PropTypes.string,
 			type        : PropTypes.string,
 			onUpload    : PropTypes.func
-		};
+		}
 	}
 
 	static defaultProps = {
@@ -22,29 +22,31 @@ export class FileUpload extends Component {
 		color       : 'primary',
 		type        : 'username',
 		onUpload    : (file) => {
-			console.log(file);
+			console.log(file)
 		}
-	};
+	}
 
 	constructor(props) {
-		super(props);
+		super(props)
 		this.state = {
 			fileName : ''
-		};
+		}
 
-		this.onChangeFile = this.onChangeFile.bind(this);
+		this.onChangeFile = this.onChangeFile.bind(this)
 	}
 
 	onChangeFile(evt) {
-		evt.stopPropagation();
-		evt.preventDefault();
-		var file = evt.target.files[0];
+		evt.stopPropagation()
+		evt.preventDefault()
+		if (!evt.target.files || evt.target.files.length > 0) {
+			var file = evt.target.files[0]
 
-		// Pass this file up to parent...
-		this.props.onUpload(file, evt.target.name);
+			// Pass this file up to parent...
+			this.props.onUpload(file, evt.target.name)
 
-		// Set state for ui
-		this.setState({ fileName: file.name });
+			// Set state for ui
+			this.setState({ fileName: file.name })
+		}
 	}
 
 	render() {
@@ -70,14 +72,14 @@ export class FileUpload extends Component {
 									placeholder={this.props.placeholder}
 									value={this.state.fileName}
 									onClick={() => {
-										this.handleUpload.click();
+										this.handleUpload.click()
 									}}
 								/>
 							</Grid>
 							<Grid item xs={4}>
 								<Button
 									onClick={() => {
-										this.handleUpload.click();
+										this.handleUpload.click()
 									}}
 									variant='outlined'
 									color={this.props.color}
@@ -89,8 +91,8 @@ export class FileUpload extends Component {
 					</Grid>
 				</div>
 			</Zoom>
-		);
+		)
 	}
 }
 
-export default FileUpload;
+export default FileUpload
