@@ -109,3 +109,6 @@ exports/
 
 # Mac files / OS-Specific Files
 .DS_Store
+
+# Big Files
+files/
