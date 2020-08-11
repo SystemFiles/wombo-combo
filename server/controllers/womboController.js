@@ -7,6 +7,7 @@ const MAX_SIZE_MB = 5
 
 const uploadFile = async (req, res) => {
 	const files = req.files
+	const { ...vars } = req.query
 
 	if (!files || files[0].size + files[1].size > 1024 * 1024 * MAX_SIZE_MB) {
 		const error = new Error(`Please select files that have a maximum file size of ${MAX_SIZE_MB}MB...`)
@@ -19,7 +20,7 @@ const uploadFile = async (req, res) => {
 			fs.remove(`${appDir}/uploads/${files[1].filename}`)
 		])
 	} else {
-		let resp = await upload(files)
+		let resp = await upload(files, vars)
 		try {
 			await Promise.all([
 				fs.remove(`${appDir}/uploads/${resp.userFileName}`),
