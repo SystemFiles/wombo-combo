@@ -3,7 +3,7 @@ const util = require('util')
 const readline = require('readline')
 const fs = require('fs-extra')
 const os = require('os')
-const { addMispelledWords, addCommonPasswords } = require('./manglingService')
+const { addMispelledWords, addCommonPasswords, addCommonReplacements } = require('./manglingService')
 const uuid = require('uuid').v4
 
 /** Returns a readable stream as an async iterable over text lines */
@@ -18,7 +18,10 @@ async function combineUserPass(usernames, passwords, outFilePath) {
 	await util.promisify(stream.pipeline)(async function*() {
 		for await (const username of lineIteratorFromFile(fs.createReadStream(usernames.path))) {
 			for await (const password of lineIteratorFromFile(fs.createReadStream(passwords.path))) {
-				yield `${username}:${password}${os.EOL}`
+				if (password.length > 0) {
+					// Ignore empty lines
+					yield `${username}:${password}${os.EOL}`
+				}
 			}
 		}
 	}, fs.createWriteStream(outFilePath))
@@ -31,17 +34,17 @@ const manglePasswords = async (passwordFile, selections) => {
 		if (selections.autoCorrect === 'true') {
 			manglePromises.push(addMispelledWords(passwordFile.path))
 		}
-		if (selections.commonPasswords === 'true') {
-			manglePromises.push(addCommonPasswords(passwordFile.path))
-		}
 		if (selections.commonReplacements === 'true') {
-			// Pass
+			manglePromises.push(addCommonReplacements(passwordFile.path))
 		}
 		if (selections.prefixSuffixInsertion === 'true') {
 			// Pass
 		}
 		if (selections.wordPermutations === 'true') {
 			// Pass
+		}
+		if (selections.commonPasswords === 'true') {
+			manglePromises.push(addCommonPasswords(passwordFile.path))
 		}
 	}
 

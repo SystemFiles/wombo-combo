@@ -22,10 +22,10 @@ const uploadFile = async (req, res) => {
 	} else {
 		let resp = await upload(files, vars)
 		try {
-			await Promise.all([
-				fs.remove(`${appDir}/uploads/${resp.userFileName}`),
-				fs.remove(`${appDir}/uploads/${resp.passFileName}`)
-			])
+			// await Promise.all([
+			// 	fs.remove(`${appDir}/uploads/${resp.userFileName}`),
+			// 	fs.remove(`${appDir}/uploads/${resp.passFileName}`)
+			// ])
 
 			res.status(200).send(JSON.stringify({ fileID: resp.fileID }))
 		} catch (err) {

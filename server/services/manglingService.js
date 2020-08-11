@@ -88,6 +88,12 @@ const commonReplacesments = {
 	o : [
 		'0'
 	],
+	p : [
+		'9'
+	],
+	r : [
+		'4'
+	],
 	s : [
 		'$',
 		'5'
@@ -105,11 +111,22 @@ const commonReplacesments = {
 }
 
 const replaceWord = async (word) => {
+	let wordsWithReplacements = []
 	for (let i = 0; i < word.length; i++) {
-		word[i] in commonReplacesments
-			? word.replace(word[i], commonReplacesments[word[i]][Math.random() * commonReplacesments[word[i]].length])
-			: null
+		let currentWord = word
+		if (currentWord[i] in commonReplacesments) {
+			for (let j = 0; j < commonReplacesments[currentWord[i]].length; j++) {
+				let replacer = new RegExp(currentWord[i], 'g')
+				currentWord = currentWord.replace(replacer, commonReplacesments[currentWord[i]][j])
+				wordsWithReplacements.push(currentWord)
+
+				// Reset word
+				currentWord = word
+			}
+		}
 	}
+
+	return wordsWithReplacements
 }
 
 // ------------------- [ REPLACEMENTS HELPER FUNCTIONS ] ------------------- //
@@ -157,9 +174,28 @@ const addCommonPasswords = async (passFile) => {
 	}
 }
 
+// adds passwords with common replacement values (ie: 4 = r, @ = a)
+const addCommonReplacements = async (passFile) => {
+	const readStream = fs.createReadStream(passFile)
+
+	console.log('Adding common replacements to existing phrases in password list...')
+
+	try {
+		await util.promisify(stream.pipeline)(async function*() {
+			for await (const password of readStream) {
+				let replacements = await replaceWord(`${password}`)
+				yield `${replacements.join('\n')}`
+			}
+		}, fs.createWriteStream(passFile, { flags: 'a' }))
+	} catch (err) {
+		Promise.reject(`ERROR: Failed to write common replacements to file...${err}`)
+	}
+}
+
 // ------------------- [ MANGLING FUNCTIONS ] ------------------- //
 
 module.exports = {
 	addMispelledWords,
-	addCommonPasswords
+	addCommonPasswords,
+	addCommonReplacements
 }
