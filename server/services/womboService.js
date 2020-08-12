@@ -77,7 +77,9 @@ const buildCombo = (usernames, passwords, vars) =>
 						reject(err)
 					})
 			})
-			.catch((err) => reject(err))
+			.catch((err) => {
+				throw new Error(err)
+			})
 	})
 
 const upload = (files, vars) =>
@@ -94,10 +96,10 @@ const upload = (files, vars) =>
 				})
 				.catch((err) => {
 					console.log(err)
-					reject(err)
+					throw new Error(err)
 				})
 		} else {
-			reject(`Something went wrong trying to read request data...`)
+			throw new Error(`Something went wrong trying to read request data...`)
 		}
 	})
 
