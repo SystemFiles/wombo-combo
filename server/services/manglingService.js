@@ -54,63 +54,62 @@ const rebuildPassphraseWithSuggested = (original, suggestions, extractedWord) =>
 
 // ------------------- [ REPLACEMENTS HELPER FUNCTIONS ] ------------------- //
 
-const commonReplacesments = {
-	a : [
-		'4',
-		'@'
-	],
-	b : [
-		'8'
-	],
-	c : [
-		'(',
-		'{',
-		'[',
-		'<'
-	],
-	e : [
-		'3'
-	],
-	g : [
-		'6',
-		'9'
-	],
-	i : [
-		'1',
-		'!',
-		'|'
-	],
-	l : [
-		'1',
-		'|',
-		'7'
-	],
-	o : [
-		'0'
-	],
-	p : [
-		'9'
-	],
-	r : [
-		'4'
-	],
-	s : [
-		'$',
-		'5'
-	],
-	t : [
-		'+',
-		'7'
-	],
-	x : [
-		'%'
-	],
-	z : [
-		'2'
-	]
-}
-
 const replaceWord = async (word) => {
+	const commonReplacesments = {
+		a : [
+			'4',
+			'@'
+		],
+		b : [
+			'8'
+		],
+		c : [
+			'(',
+			'{',
+			'[',
+			'<'
+		],
+		e : [
+			'3'
+		],
+		g : [
+			'6',
+			'9'
+		],
+		i : [
+			'1',
+			'!',
+			'|'
+		],
+		l : [
+			'1',
+			'|',
+			'7'
+		],
+		o : [
+			'0'
+		],
+		p : [
+			'9'
+		],
+		r : [
+			'4'
+		],
+		s : [
+			'$',
+			'5'
+		],
+		t : [
+			'+',
+			'7'
+		],
+		x : [
+			'%'
+		],
+		z : [
+			'2'
+		]
+	}
 	let wordsWithReplacements = []
 	for (let i = 0; i < word.length; i++) {
 		let currentWord = word
@@ -122,6 +121,8 @@ const replaceWord = async (word) => {
 
 				// Reset word
 				currentWord = word
+
+				// console.log(`Memory use: ${Math.round(process.memoryUsage().heapUsed / 1024 / 1024 * 100 / 100)}MB`)
 			}
 		}
 	}
@@ -159,7 +160,7 @@ const addMispelledWords = async (passFile) => {
 
 // adds a list of 14 million common (used) passwords from rockyou.txt to this combo list
 const addCommonPasswords = async (passFile) => {
-	const readStream = fs.createReadStream('files/common_password_list.txt', { root: appDir })
+	const readStream = fs.createReadStream('files/rockyou.txt', { root: appDir })
 
 	console.log('Adding common passwords from rockyou.txt to password list... (this can take a very long time)')
 
@@ -183,7 +184,7 @@ const addCommonReplacements = async (passFile) => {
 	try {
 		await util.promisify(stream.pipeline)(async function*() {
 			for await (const password of readStream) {
-				yield `${(await replaceWord(`${password}`)).join('\n')}`
+				yield `${await (await replaceWord(`${password}`)).join('\n')}`
 			}
 		}, fs.createWriteStream(passFile, { flags: 'a' }))
 	} catch (err) {

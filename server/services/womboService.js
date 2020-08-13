@@ -30,6 +30,8 @@ async function combineUserPass(usernames, passwords, outFilePath) {
 const manglePasswords = async (passwordFile, selections) => {
 	let manglePromises = []
 
+	console.log(selections)
+
 	if (selections) {
 		if (selections.autoCorrect === true || selections.autoCorrect === 'true') {
 			manglePromises.push(addMispelledWords(passwordFile.path))
