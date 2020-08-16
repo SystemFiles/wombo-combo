@@ -3,14 +3,15 @@ const fs = require('fs-extra')
 const { upload } = require('../services/womboService')
 
 const appDir = path.dirname(require.main.filename)
-const MAX_SIZE_MB = 50
+const MAX_SIZE_MB = 1
 
 const uploadFile = async (req, res) => {
 	const files = req.files
-	const vars =
-		typeof req.query.vars === 'string' || req.query.vars instanceof String
+	const vars = req.query.vars
+		? typeof req.query.vars === 'string' || req.query.vars instanceof String
 			? JSON.parse(req.query.vars)
 			: req.query.vars
+		: req.query
 
 	if (!files || files[0].size + files[1].size > 1024 * 1024 * MAX_SIZE_MB) {
 		const error = new Error(`Please select files that have a maximum file size of ${MAX_SIZE_MB}MB...`)

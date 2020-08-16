@@ -54,62 +54,63 @@ const rebuildPassphraseWithSuggested = (original, suggestions, extractedWord) =>
 
 // ------------------- [ REPLACEMENTS HELPER FUNCTIONS ] ------------------- //
 
+const commonReplacesments = {
+	a : [
+		'4',
+		'@'
+	],
+	b : [
+		'8'
+	],
+	c : [
+		'(',
+		'{',
+		'[',
+		'<'
+	],
+	e : [
+		'3'
+	],
+	g : [
+		'6',
+		'9'
+	],
+	i : [
+		'1',
+		'!',
+		'|'
+	],
+	l : [
+		'1',
+		'|',
+		'7'
+	],
+	o : [
+		'0'
+	],
+	p : [
+		'9'
+	],
+	r : [
+		'4'
+	],
+	s : [
+		'$',
+		'5'
+	],
+	t : [
+		'+',
+		'7'
+	],
+	x : [
+		'%'
+	],
+	z : [
+		'2'
+	]
+}
+
 const replaceWord = async (word) => {
-	const commonReplacesments = {
-		a : [
-			'4',
-			'@'
-		],
-		b : [
-			'8'
-		],
-		c : [
-			'(',
-			'{',
-			'[',
-			'<'
-		],
-		e : [
-			'3'
-		],
-		g : [
-			'6',
-			'9'
-		],
-		i : [
-			'1',
-			'!',
-			'|'
-		],
-		l : [
-			'1',
-			'|',
-			'7'
-		],
-		o : [
-			'0'
-		],
-		p : [
-			'9'
-		],
-		r : [
-			'4'
-		],
-		s : [
-			'$',
-			'5'
-		],
-		t : [
-			'+',
-			'7'
-		],
-		x : [
-			'%'
-		],
-		z : [
-			'2'
-		]
-	}
 	let wordsWithReplacements = []
 	for (let i = 0; i < word.length; i++) {
 		let currentWord = word
@@ -122,7 +123,11 @@ const replaceWord = async (word) => {
 				// Reset word
 				currentWord = word
 
-				// console.log(`Memory use: ${Math.round(process.memoryUsage().heapUsed / 1024 / 1024 * 100 / 100)}MB`)
+				console.log(
+					`[${Date.now()}] Memory use: ${Math.round(
+						process.memoryUsage().heapUsed / 1024 / 1024 * 100 / 100
+					)}MB`
+				)
 			}
 		}
 	}
