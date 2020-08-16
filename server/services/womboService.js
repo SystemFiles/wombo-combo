@@ -30,11 +30,13 @@ async function combineUserPass(usernames, passwords, outFilePath) {
 const manglePasswords = async (passwordFile, selections) => {
 	let manglePromises = []
 
+	console.log(selections)
+
 	if (selections) {
-		if (selections.autoCorrect === 'true') {
+		if (selections.autoCorrect === true || selections.autoCorrect === 'true') {
 			manglePromises.push(addMispelledWords(passwordFile.path))
 		}
-		if (selections.commonReplacements === 'true') {
+		if (selections.commonReplacements === true || selections.commonReplacements === 'true') {
 			manglePromises.push(addCommonReplacements(passwordFile.path))
 		}
 		if (selections.prefixSuffixInsertion === 'true') {
@@ -43,7 +45,7 @@ const manglePasswords = async (passwordFile, selections) => {
 		if (selections.wordPermutations === 'true') {
 			// Pass
 		}
-		if (selections.commonPasswords === 'true') {
+		if (selections.commonPasswords === true || selections.commonPasswords === 'true') {
 			manglePromises.push(addCommonPasswords(passwordFile.path))
 		}
 	}
@@ -77,7 +79,9 @@ const buildCombo = (usernames, passwords, vars) =>
 						reject(err)
 					})
 			})
-			.catch((err) => reject(err))
+			.catch((err) => {
+				throw new Error(err)
+			})
 	})
 
 const upload = (files, vars) =>
@@ -94,10 +98,10 @@ const upload = (files, vars) =>
 				})
 				.catch((err) => {
 					console.log(err)
-					reject(err)
+					throw new Error(err)
 				})
 		} else {
-			reject(`Something went wrong trying to read request data...`)
+			throw new Error(`Something went wrong trying to read request data...`)
 		}
 	})
 

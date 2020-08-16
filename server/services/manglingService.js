@@ -122,6 +122,12 @@ const replaceWord = async (word) => {
 
 				// Reset word
 				currentWord = word
+
+				console.log(
+					`[${Date.now()}] Memory use: ${Math.round(
+						process.memoryUsage().heapUsed / 1024 / 1024 * 100 / 100
+					)}MB`
+				)
 			}
 		}
 	}
@@ -159,7 +165,7 @@ const addMispelledWords = async (passFile) => {
 
 // adds a list of 14 million common (used) passwords from rockyou.txt to this combo list
 const addCommonPasswords = async (passFile) => {
-	const readStream = fs.createReadStream('files/common_password_list.txt', { root: appDir })
+	const readStream = fs.createReadStream('files/rockyou.txt', { root: appDir })
 
 	console.log('Adding common passwords from rockyou.txt to password list... (this can take a very long time)')
 
@@ -183,8 +189,7 @@ const addCommonReplacements = async (passFile) => {
 	try {
 		await util.promisify(stream.pipeline)(async function*() {
 			for await (const password of readStream) {
-				let replacements = await replaceWord(`${password}`)
-				yield `${replacements.join('\n')}`
+				yield `${await (await replaceWord(`${password}`)).join('\n')}`
 			}
 		}, fs.createWriteStream(passFile, { flags: 'a' }))
 	} catch (err) {

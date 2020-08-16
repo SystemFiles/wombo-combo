@@ -9,4 +9,4 @@ COPY . .
 RUN npm build
 
 EXPOSE 3000
-ENTRYPOINT [ "./.docker/entrypoint.sh" ]
+ENTRYPOINT [ "serve", "-s", "build/", "-l", "3000" ]
