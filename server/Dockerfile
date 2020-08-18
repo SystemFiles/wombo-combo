@@ -7,10 +7,13 @@ COPY package.json ./
 RUN npm install
 
 # Get running environment setup
-RUN apk add --update --no-cache build-base git openssl linux-headers cpulimit
+RUN apk add --update --no-cache build-base git openssl linux-headers cpulimit bash
 
 WORKDIR /app
 COPY . .
 
+# Escalate privillages of entrypoint script
+RUN chmod 755 ./.docker/entrypoint.sh
+
 EXPOSE 5000
-CMD [ "cpulimit", "-l", "50", "node", "server.js" ]
+ENTRYPOINT [ "./.docker/entrypoint.sh" ]
