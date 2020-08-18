@@ -1,8 +1,7 @@
-#!bin/bash
+#!/bin/bash
+
 # Create directory structure in the container, then start the server
 # By: Benjamin Sykes (SystemFiles)
-
-set -e
 
 # File setup
 mkdir -p /data
