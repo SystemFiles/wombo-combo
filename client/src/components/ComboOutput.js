@@ -9,8 +9,8 @@ import ComboDownload from './ComboDownload'
 // Styles
 import './ComboOutput.css'
 
-const UPLOAD_ENDPOINT = 'http://localhost:5000/wombo-combo/api/list/upload'
-const DOWNLOAD_ENDPOINT = 'http://localhost:5000/wombo-combo/api/list/download'
+const UPLOAD_ENDPOINT = 'https://sykesdev.ca/wombo-combo/api/list/upload'
+const DOWNLOAD_ENDPOINT = 'https://sykesdev.ca/wombo-combo/api/list/download'
 const ComboListRaw = React.lazy(() => import('./ComboListRaw'))
 
 export class ComboOutput extends Component {

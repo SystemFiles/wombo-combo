@@ -16,7 +16,7 @@ app.use(bodyParser.json())
 // Add API-wide middleware
 app.use(mainLimiter)
 
-app.use('/wombo-combo/api', routes)
+app.use('/', routes)
 
 module.exports = {
 	app
