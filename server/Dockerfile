@@ -13,4 +13,4 @@ WORKDIR /app
 COPY . .
 
 EXPOSE 5000
-CMD [ "cpulimit", "-l", "50", "node", "server.js" ]
+CMD [ ".docker/entrypoint.sh" ]
