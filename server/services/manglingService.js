@@ -8,6 +8,7 @@ const readline = require('readline')
 const util = require('util')
 const stream = require('stream')
 const os = require('os')
+const { DATA_DIR } = require('../config')
 const appDir = path.dirname(require.main.filename)
 
 // ------------------- [ SPELLING HELPER FUNCTIONS ] ------------------- //
@@ -165,7 +166,7 @@ const addMispelledWords = async (passFile) => {
 
 // adds a list of 14 million common (used) passwords from rockyou.txt to this combo list
 const addCommonPasswords = async (passFile) => {
-	const readStream = fs.createReadStream('files/rockyou.txt', { root: appDir })
+	const readStream = fs.createReadStream(`${DATA_DIR}/files/rockyou.txt`, { root: appDir })
 
 	console.log('Adding common passwords from rockyou.txt to password list... (this can take a very long time)')
 

@@ -3,6 +3,7 @@ const util = require('util')
 const readline = require('readline')
 const fs = require('fs-extra')
 const os = require('os')
+const { DATA_DIR } = require('../config')
 const { addMispelledWords, addCommonPasswords, addCommonReplacements } = require('./manglingService')
 const uuid = require('uuid').v4
 
@@ -29,9 +30,6 @@ async function combineUserPass(usernames, passwords, outFilePath) {
 
 const manglePasswords = async (passwordFile, selections) => {
 	let manglePromises = []
-
-	console.log(selections)
-
 	if (selections) {
 		if (selections.autoCorrect === true || selections.autoCorrect === 'true') {
 			manglePromises.push(addMispelledWords(passwordFile.path))
@@ -61,7 +59,7 @@ const buildCombo = (usernames, passwords, vars) =>
 	new Promise((resolve, reject) => {
 		// Generate combo result path & ID
 		const fileID = uuid()
-		const comboPath = `exports/combo-list-${fileID}.txt`
+		const comboPath = `${DATA_DIR}/exports/combo-list-${fileID}.txt`
 
 		// Mangle password with selected rules
 		manglePasswords(passwords, vars)
