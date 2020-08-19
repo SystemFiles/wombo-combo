@@ -11,10 +11,6 @@ before_install:
   - sudo apt-get update
   - sudo apt-get -y install bash
 
-install:
-  - source .travis/get_stable_status.sh
-  - .travis/get_stable_status.sh
-
 before_script:
   - export CLIENT_VER=$(node -p -e "require('${TRAVIS_BUILD_DIR}/client/package.json').version")
   - export CLIENT_NAME=$(node -p -e "require('${TRAVIS_BUILD_DIR}/client/package.json').name")
