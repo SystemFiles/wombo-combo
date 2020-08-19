@@ -1,6 +1,11 @@
 #!/bin/bash
 # Deploy script for deploying application to kubernetes
 
+echo "Logging into Docker Registry..."
+echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+echo "Done!"
+echo ""
+
 echo "Pulling containers..."
 docker pull "${DOCKER_ID}/${CLIENT_NAME}:${CLIENT_VER}"
 docker pull "${DOCKER_ID}/${SERVER_NAME}:${SERVER_VER}"
