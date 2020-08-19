@@ -166,7 +166,7 @@ const addMispelledWords = async (passFile) => {
 
 // adds a list of 14 million common (used) passwords from rockyou.txt to this combo list
 const addCommonPasswords = async (passFile) => {
-	const readStream = fs.createReadStream(`${DATA_DIR}/files/rockyou.txt`, { root: appDir })
+	const readStream = fs.createReadStream(`${DATA_DIR}/files/rockyou.txt`)
 
 	console.log('Adding common passwords from rockyou.txt to password list... (this can take a very long time)')
 

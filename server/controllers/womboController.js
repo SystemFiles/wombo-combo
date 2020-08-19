@@ -42,7 +42,7 @@ const uploadFile = async (req, res) => {
 const getComboFile = async (req, res) => {
 	const fileID = req.query.fileID
 	try {
-		res.sendFile(`${DATA_DIR}/exports/combo-list-${fileID}.txt`, { root: appDir })
+		res.sendFile(`${DATA_DIR}/exports/combo-list-${fileID}.txt`)
 	} catch (err) {
 		console.log(`ERROR: Problem sending and removing combo-list from storage...`)
 		res.send({ status: 500, message: 'Failed to remove/send combo-list file.' })
