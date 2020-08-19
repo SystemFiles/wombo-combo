@@ -12,8 +12,8 @@ before_install:
   - sudo apt-get -y install bash
 
 install:
-  - source .travis/get_live_status.sh
-  - .travis/get_live_status.sh
+  - source .travis/get_stable_status.sh
+  - .travis/get_stable_status.sh
 
 before_script:
   - export CLIENT_VER=$(node -p -e "require('${TRAVIS_BUILD_DIR}/client/package.json').version")
@@ -30,8 +30,8 @@ stages:
     if: branch = master
   - name: build-push-server
     if: branch = master
-  - name: deploy
-    if: ( branch = master ) AND ( tag IS present ) AND ( env(LIVE) = "true" )
+  - name: tag
+    if: ( branch = master ) AND ( tag IS present ) AND ( env(STABLE) = "true" )
 
 jobs:
   allow_failures:
@@ -60,6 +60,6 @@ jobs:
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
         - docker build -t $DOCKER_ID/${SERVER_NAME}:${SERVER_VER} -f ${TRAVIS_BUILD_DIR}/server/Dockerfile ${TRAVIS_BUILD_DIR}/server
         - docker push $DOCKER_ID/${SERVER_NAME}:${SERVER_VER}
-    - stage: deploy
+    - stage: tag
       script:
-        - ${TRAVIS_BUILD_DIR}/.travis/deploy.sh
+        - ${TRAVIS_BUILD_DIR}/.travis/tag.sh

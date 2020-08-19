@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-isLive() {
-    if [[ $TRAVIS_TAG = *"-live"* ]]
+isStable() {
+    if [[ $TRAVIS_TAG = *"-stable"* ]]
     then
         #"-live" is in $TRAVIS_TAG
         echo "true"
@@ -12,5 +12,5 @@ isLive() {
     fi
 }
 
-echo "============== CHECKING IF LIVE DEPLOYMENT CONDITION IS MET =============="
-export LIVE=$(isLive)
+echo "============== CHECKING IF STABLE DEPLOYMENT CONDITION IS MET =============="
+export STABLE=$(isStable)
