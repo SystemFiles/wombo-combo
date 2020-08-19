@@ -3,7 +3,6 @@ const fs = require('fs-extra')
 const { DATA_DIR } = require('../config')
 const { upload } = require('../services/womboService')
 
-const appDir = path.dirname(require.main.filename)
 const MAX_SIZE_MB = 1
 
 const uploadFile = async (req, res) => {
