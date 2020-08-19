@@ -31,7 +31,7 @@ stages:
   - name: build-push-server
     if: branch = master
   - name: tag
-    if: env(STABLE) = "true"
+    if: branch = stable
 
 jobs:
   allow_failures:
