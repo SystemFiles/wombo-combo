@@ -2,7 +2,7 @@
 set -e
 
 isStable() {
-    if [[ $TRAVIS_TAG = *"-stable"* ]]
+    if [[ $TRAVIS_TAG = *"stable"* ]]
     then
         #"-live" is in $TRAVIS_TAG
         echo "true"
