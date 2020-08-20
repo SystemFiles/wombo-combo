@@ -60,7 +60,7 @@ export class FileUpload extends Component {
 						required='yes'
 						ref={(ref) => (this.handleUpload = ref)}
 						style={{ display: 'none' }}
-						onChange={this.onChangeFile.bind(this)}
+						onChange={this.onChangeFile}
 						accept='.txt'
 					/>
 					<Grid container>
