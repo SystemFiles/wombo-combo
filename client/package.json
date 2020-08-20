@@ -1,8 +1,8 @@
 {
 	"name": "wombo-combo-client",
-	"version": "1.0.4",
+	"version": "1.0.5",
 	"private": true,
-	"homepage": "https://wc.sykesdev.ca",
+	"homepage": "http://wc.sykesdev.ca/",
 	"dependencies": {
 		"@material-ui/core": "^4.10.1",
 		"@material-ui/icons": "^4.9.1",

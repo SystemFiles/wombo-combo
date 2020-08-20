@@ -110,12 +110,12 @@ export class Home extends Component {
 			if (this.state.activeStep + 1 === 2) {
 				// If this is review page (default valid with no input)
 				this.setState((st) => ({
-					activeStep : st.activeStep++,
+					activeStep : ++st.activeStep,
 					valid      : true
 				}))
 			} else {
 				this.setState((st) => ({
-					activeStep : st.restartOption ? st.activeStep : st.activeStep++,
+					activeStep : st.restartOption ? st.activeStep : ++st.activeStep,
 					valid      : false
 				}))
 			}
@@ -135,7 +135,7 @@ export class Home extends Component {
 	handleBack() {
 		if (this.state.activeStep - 1 >= 0) {
 			this.setState((st) => ({
-				activeStep    : st.activeStep--,
+				activeStep    : --st.activeStep,
 				restartOption : false
 			}))
 		}
