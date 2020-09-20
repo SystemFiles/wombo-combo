@@ -37,7 +37,7 @@
 I created this tool as a way to create and manipulate username and password lists as well as combo lists. The goal of this tool it will help make the most comprehensive combo lists for penetration testing, but be simple and accessible through your web browser.
 
 ## Demo
-![Demo](/doc/media/demo.gif)
+> ![Demo](/doc/media/demo.gif)
 *Small Demonstration of Wombo Combos key features* <br/>
 To try it yourself (**note**: Due to storage limitations on my host, you may only provide files under 1MB) please check out the [wombo-combo live](https://wc.sykesdev.ca)
 
