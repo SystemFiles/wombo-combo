@@ -25,10 +25,8 @@
 ## 📝 Table of Contents
 
 - [About](#about)
-- [Getting Started](#getting_started)
-- [Running tests](#tests)
-- [Usage](#usage)
-- [Deployment](#deployment)
+- [Features](#features)
+- [Deploy](#deploy)
 - [Built Using](#built_using)
 - [Authors](#authors)
 
@@ -36,53 +34,32 @@
 
 I created this tool as a way to create and manipulate username and password lists as well as combo lists. The goal of this tool it will help make the most comprehensive combo lists for penetration testing, but be simple and accessible through your web browser.
 
-## Demo
+## ✅ Features <a name = "features">
+
+- Simple UI/UX design
+- Built on web as CSR web app using React making the application super accessible (unlike most pentesting tools)
+- Effective mangling rules for ensuring the most comprehensive password lists based on research into most effective password mangling techniques. (*somewhat limited in current implementation...will be updated in the future with more mangling rules*)
+- Small performance requirements to deploy on your own
+- Step by Step system to ensure user is presented with all options before generating any list
+- Generation of combos handled on express API server so that users machine suffers no performance loss with large combo lists
+- Configurable HELM chart for deploying the app on Kubernetes ([Wombo-Combo Chart](https://github.com/SystemFiles/helm-charts/tree/master/charts/wombo-combo)). Usable through Sykesdev HELM repo
+- Fully containerized through use of Docker
+- Small file size overall (less than 100MB)
+- Clean interface for ease-of-use
+- Allows users to both copy the entire combo-list into clipboard OR to download the entire list as a formatted text file (`user:pass`)
+- More soon 🙏
+
+## 📹Demo
 > ![Demo](/doc/media/demo.gif)
 *Small Demonstration of Wombo Combos key features* <br/>
 To try it yourself (**note**: Due to storage limitations on my host, you may only provide files under 1MB) please check out the [wombo-combo live](https://wc.sykesdev.ca)
 
-## 🏁 Getting Started <a name = "getting_started"></a>
+## 🚀 Deploy your own! <a name = "deploy"></a>
 
-**Want to run your own copy?**
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
-
-1. Clone the repository `git clone https://github.com/SystemFiles/wombo-combo.git`
-2. `npm install` in each `/client/` and `/server/`.
-3. Create a `.env` file at the root of `/server/` (`touch .env`) and fill with the following required vars
-  - TBD
-4. To run in production
-  - Navigate to `/client/` and run `npm build` to build the project
-  - After the optimized build has been generated you may serve the application using any static web server. I recommend node serv which can be installed with `npm install -g serve` and run with `serve -s /build -l <port>`.
-5. To run in dev
-  - Navigate to `/client/` and run `npm start`
-  - Do the same in `/server/` or run `node app.js`
-6. Done 🙂
-
-### Prerequisites
-
-- Only need `npm`... then do `npm install`
-
-### Viewing
-
-Go to the [Demo Site](http://sykesdev.ca/wombo-combo/)
-
-## 🔧 Running the tests <a name = "tests"></a>
-
-### Integration tests
-
-run `npm run test`
-
-### Coding style tests
-
-I adhere to the standard javascript coding style defined [here](https://github.com/standard/eslint-config-standard/blob/master/README.md). If you plan on contributing please lint your code using `npm run lint`
-
-## 🎈 Usage <a name="usage"></a>
-
-TBD
-
-## 🚀 Deployment <a name = "deployment"></a>
-
-`npm run build` and copy `/build` to your web server. See [Getting Started](#getting_started) for more info
+1. Add the SykesDev HELM Repo: `helm repo add https://systemfiles.github.io/helm-charts/`
+2. Update the repo contents: `helm repo update`
+3. Install chart on your cluster: `helm install wombo-combo sykesdev/wombo-combo --namespace wombo-combo --values <your_values_file>` or simply `helm install wombo-combo sykesdev/wombo-combo --namespace wombo-combo` if you would like to use default values provided with chart (**NOT RECOMMENDED**)
+4. Wait about 2min (MAX) and you should be up and running ✓
 
 ## ⛏️ Built Using <a name = "built_using"></a>
 
