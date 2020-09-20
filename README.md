@@ -38,7 +38,7 @@ I created this tool as a way to create and manipulate username and password list
 
 ## Demo
 ![Demo](/doc/media/demo.gif)
-*Small Demonstration of Wombo Combos key features*
+*Small Demonstration of Wombo Combos key features* <br/>
 To try it yourself (**note**: Due to storage limitations on my host, you may only provide files under 1MB) please check out the [wombo-combo live](https://wc.sykesdev.ca)
 
 ## 🏁 Getting Started <a name = "getting_started"></a>
