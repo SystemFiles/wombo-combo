@@ -157,8 +157,23 @@ export class Home extends Component {
 				}
 			}),
 			() => {
-				if (this.state.startFiles.usernames && this.state.startFiles.passwords) {
+				if (
+					this.state.startFiles.usernames &&
+					this.state.startFiles.passwords &&
+					this.state.startFiles.usernames.size + this.state.startFiles.passwords.size < 1024 * 1024 * 1
+				) {
 					this.setState({ valid: true })
+				} else {
+					console.log(
+						`Combined file size for uploaded files is too high (${(this.state.startFiles.usernames.size +
+							this.state.startFiles.passwords.size) /
+							(1024 * 1024)}MB). Required less than ~1MB combined.`
+					)
+					alert(
+						`Combined file size for uploaded files is too high (${(this.state.startFiles.usernames.size +
+							this.state.startFiles.passwords.size) /
+							(1024 * 1024)}MB).`
+					)
 				}
 			}
 		)

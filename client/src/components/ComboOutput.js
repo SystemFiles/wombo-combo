@@ -86,7 +86,7 @@ export class ComboOutput extends Component {
 			// Show error message and stop loading infinitely...
 			this.setState({
 				error        : true,
-				errorMessage : `Problem building combo list...try again`,
+				errorMessage : `Problem building combo list...\n${err}`,
 				loading      : false
 			})
 		}
